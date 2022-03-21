@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta id="colorScheme" name="color-scheme" content="light dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@200&family=Red+Hat+Mono:wght@300&family=Roboto+Mono:wght@100&display=swap" rel="stylesheet">
+    <meta
+      name="description"
+      content="untitled-blockchain-messenger, a project built for Oxford Brookes University"
+    />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+        
+      TODO re-add manifest.json when we re-introduce icons
+    -->
+    <title>ubm</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+  <script>
+    // blocking script on page load - prevents darkmode flicker.
+    const mode = localStorage.getItem("mode") || "system";
+    let theme;
+    if (mode === "system") {
+      const isSystemInDarkMode = matchMedia("(prefers-color-scheme: dark)")
+        .matches;
+      theme = isSystemInDarkMode ? "dark" : "light";
+    } else {
+      // for light and dark, the theme is the mode
+      theme = mode;
+    }
+    document.body.classList.add(theme);
+  </script>  
+</html>

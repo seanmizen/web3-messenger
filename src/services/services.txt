@@ -1,0 +1,7 @@
+this folder is for services.
+what does that mean?
+
+by services i mean any external APIs, databases, etc which we need to call from.
+
+In this folder we should *encapsulate* any connections for our purposes.
+(and handle any errors which might occur with these connections)

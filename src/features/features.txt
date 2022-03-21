@@ -1,0 +1,11 @@
+this folder is for features - e.g. page-sized components.
+Similar to Pages, but a Page would wrap a Feature.
+
+
+page
+ feature (reasonably not more than 2-3)
+  component
+   subcomponent (/components subfolder)
+  component
+
+for a good working website we should not need more than 4 levels. Similar to the atomic framework, but not!

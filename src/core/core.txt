@@ -1,0 +1,2 @@
+the "core" folder features any global components which are always present.
+probably just "nav".

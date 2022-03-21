@@ -1,0 +1,47 @@
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0;
+}
+
+.nav-list-item a {
+  display: block;
+  padding: 0.25rem;
+  font-weight: 700;
+  color: var(--color);
+  text-decoration: none;
+}
+
+.nav-list-item a:active {
+  background-color: rgba(100, 100, 100 0.5);
+}
+
+.nav-list-spacer {
+  display: block;
+  height: 1.5rem;
+  width: 0.125rem;
+  width: 1px;
+  background: var(--color);
+}
+
+.nav {
+  max-width: 100%;
+  width: 36rem;
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.nav-holder {
+  background: var(--nav-background);
+  box-shadow: 0px 1px 3px var(--nav-box-shadow);
+  max-width: 100%;
+  width: 100%;
+  margin: 0 0 0.7rem 0;
+}

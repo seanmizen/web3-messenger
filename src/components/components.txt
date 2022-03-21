@@ -1,0 +1,3 @@
+global components, their styles, and their behaviour all go here.
+
+e.g. all of our buttons will go here. we might have a few different versions.
