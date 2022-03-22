@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Web3 Messenger
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Available at [https://seanmizen.github.io/web3-messenger/](https://seanmizen.github.io/web3-messenger/)
 
 ## Available Scripts
 
