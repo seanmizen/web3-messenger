@@ -1,19 +1,15 @@
 import styles from "../AllChats.module.css";
+// displays the chat title and the last message or event in the chat
 
-// displays the last message of a chat
-
-// Expects a chat object with .messages in the following format:
-// {
-//     id: 1,
-//     senderAddress: "0x2",
-//     senderName: "John Smith",
-//     body: "body 1",
-// }
-
-const ChatStub = ({ chat, currentUser }) => {
-  // console.log(currentUser.name);
+const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
+  const onClick = () => {
+    setCurrentChatID(chat.id);
+  };
   return (
-    <li>
+    <li
+      onClick={onClick}
+      className={chat.id === currentChatID ? styles["current-chat"] : ""}
+    >
       <span className={styles["stub-name"]}>{chat.name || "\xa0"}</span>
       <span className={styles["stub-last-message"]}>
         {(chat.messages.length &&

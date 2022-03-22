@@ -1,6 +1,7 @@
 import styles from "./Chats.module.css";
 import { ChatScreen, AllChats } from "../../features";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const tempChats = [
   {
@@ -11,12 +12,16 @@ const tempChats = [
         id: 1,
         senderAddress: "0x3",
         senderName: "John Smith",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954706",
         body: "ur bad",
       },
       {
         id: 2,
         senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
         senderName: "Current User",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954706",
         body: "I responded to a message???",
       },
     ],
@@ -29,12 +34,16 @@ const tempChats = [
         id: 1,
         senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
         senderName: "Current User",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954706",
         body: "I sent a message!",
       },
       {
         id: 2,
         senderAddress: "0x3",
         senderName: "not u",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954706",
         body: "I responded.",
       },
     ],
@@ -98,12 +107,26 @@ let tempCurrentUser = {
 
 function Chats() {
   const [chats] = useState(tempChats);
-  const [currentChat] = useState(chats[0] || {});
+  const [currentChatID, setCurrentChatID] = useState(0);
+  const [currentChat, setCurrentChat] = useState(chats[0] || {});
+
+  useEffect(() => {
+    chats.forEach((chat) => {
+      if (chat.id === currentChatID) {
+        setCurrentChat(chat);
+      }
+    });
+  }, [chats, currentChatID]);
 
   return (
     <div className={styles["chats"]}>
       <div className={styles["all-chats"]}>
-        <AllChats chats={chats} currentUser={tempCurrentUser} />
+        <AllChats
+          chats={chats}
+          currentUser={tempCurrentUser}
+          currentChatID={currentChatID}
+          setCurrentChatID={setCurrentChatID}
+        />
       </div>
       <div className={styles["chat-screen"]}>
         <ChatScreen chat={currentChat} currentUser={tempCurrentUser} />

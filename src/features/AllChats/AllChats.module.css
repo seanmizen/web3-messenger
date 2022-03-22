@@ -1,4 +1,5 @@
 .chat-list {
+  flex: 1;
   display: flex;
   flex-direction: column;
   background-color: var(--subsection-background);
@@ -9,7 +10,7 @@
   background-color: var(--header-background);
   display: flex;
   padding: 0.2rem 0.5rem;
-  height: 1.7rem;
+  height: 2.5rem;
 }
 .chat-list input {
   margin: 0.2rem 0.5rem;
@@ -44,6 +45,6 @@
 .unread {
   font-weight: 500;
 }
-.selected {
-  background-color: RGBA(128, 128, 128, 0.2);
+.current-chat {
+  background-color: var(--background);
 }

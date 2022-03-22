@@ -3,7 +3,7 @@ import ChatStub from "./components/ChatStub";
 import SearchBar from "./components/SearchBar";
 import { useState } from "react";
 
-const AllChats = ({ chats, currentUser }) => {
+const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const chatMatchesSearch = (chat) => {
@@ -23,7 +23,16 @@ const AllChats = ({ chats, currentUser }) => {
     <ul className={styles["chat-list"]}>
       <SearchBar key={-1} setSearchTerm={setSearchTerm}></SearchBar>
       {chats?.filter(chatMatchesSearch).map((chat, index) => {
-        return <ChatStub key={index} chat={chat} currentUser={currentUser} />;
+        return (
+          <ChatStub
+            key={index}
+            chat={chat}
+            currentUser={currentUser}
+            chatStubIndex={index}
+            setCurrentChatID={setCurrentChatID}
+            currentChatID={currentChatID}
+          />
+        );
       })}
     </ul>
   );

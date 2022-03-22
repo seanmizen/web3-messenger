@@ -15,12 +15,28 @@ import MessageInput from "./components/MessageInput";
 
 // currentUser:
 // .address
-// .privateKey <-- probably not in front end?
+// .privateKey <-- should not be exposed here
 
 function ChatScreen({ chat, currentUser }) {
+  const chatLastActive = chat.messages.length
+    ? chat.messages[chat.messages.length - 1].unixTimestamp
+    : Date(0);
+
+  const prettyTime = (prefix, time) => {
+    return typeof time == "object"
+      ? prefix.trim() + " " + time.toLocaleDateString()
+      : "";
+  };
+
   return (
     <div className={styles["chat-screen"]}>
-      <div className={styles["header"]}>This is a header section</div>
+      <div className={styles["header"]}>
+        <div className={styles["title"]}>{chat.name}</div>
+        {/* Let the following div collapse if timestamp is not available: */}
+        <div className={styles["meta"]}>
+          {prettyTime("Chat last active at", chatLastActive)}
+        </div>
+      </div>
       <ul className={styles["chat-view"]}>
         {chat.messages?.map((message) => {
           let isCurrentUser = message.senderAddress === currentUser.address;
