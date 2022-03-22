@@ -18,9 +18,9 @@ const Message = ({ message, isCurrentUser, isSequential }) => {
         <span>{message.body || "\xa0"}</span>
         <div className={styles["meta"]}>
           {/* <div className={styles["non-timestamp"]}>[crypto metadata here]</div> */}
-          <div className={styles["timestamp"]}>
-            {timestamp.toLocaleTimeString()}
-          </div>
+        </div>
+        <div className={styles["timestamp"]}>
+          {timestamp.toLocaleTimeString()}
         </div>
       </div>
     </li>

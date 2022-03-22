@@ -96,11 +96,8 @@
   flex: 1;
 }
 
-.message .meta .timestamp {
-  /* font-family: monospace; */
-  /* flex: 0; */
-  /* position: absolute; */
-  /* right: 0; */
+.timestamp {
+  /* margin-left: auto; */
   font-size: 0.6rem;
 }
 

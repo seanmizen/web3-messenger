@@ -28,7 +28,7 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
             chat.messages[chat.messages.length - 1].body) ||
           "\xa0"}
       </span>
-      {/* <span className="timestamp">{timestamp.toLocaleString}</span> */}
+      <span className={styles["timestamp"]}>{timestamp.toLocaleString()}</span>
     </li>
   );
 };

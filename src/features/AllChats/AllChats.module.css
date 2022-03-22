@@ -24,6 +24,8 @@
 }
 
 .chat-list li {
+  /* chat stub */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   padding: 0.2rem;
@@ -33,6 +35,13 @@
   -ms-transition: background-color 100ms linear;
   transition: background-color 100ms linear;
 }
+
+.timestamp {
+  margin-left: auto;
+  padding-right: 1rem;
+  font-size: 0.6rem;
+}
+
 .chat-list li:hover {
   background-color: var(--background);
   -webkit-transition: background-color 100ms linear;
