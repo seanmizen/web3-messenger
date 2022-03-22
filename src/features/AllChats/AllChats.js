@@ -22,7 +22,6 @@ const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
 
   return (
     <div className={styles["left-side"]}>
-      <MenuBar />
       <SearchBar key={-1} setSearchTerm={setSearchTerm}></SearchBar>
       <ul className={styles["chat-list"]}>
         {chats?.filter(chatMatchesSearch).map((chat, index) => {
@@ -38,6 +37,7 @@ const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
           );
         })}
       </ul>
+      <MenuBar />
     </div>
   );
 };

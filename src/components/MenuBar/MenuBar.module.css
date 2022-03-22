@@ -3,5 +3,11 @@
   display: flex;
   padding: 0.2rem 0.5rem;
   height: 2.5rem;
-  /* width: 100%; */
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.menu-bar a {
+  display: flex;
 }

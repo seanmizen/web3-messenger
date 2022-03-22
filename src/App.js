@@ -4,10 +4,8 @@ import { Chats, Settings, Profile } from "./pages";
 import { ThemeProvider } from "./Theme";
 // import { Web3 } from "./services";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import { useState } from "react";
 
 function App() {
-  // const [chats, setChats] = useState({});
   return (
     <ThemeProvider>
       <Router basename={process.env.REACT_APP_BASENAME}>
