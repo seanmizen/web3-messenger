@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "https://seanmizen.github.io/web3-messenger/static/css/main.4a546405.css",
-    "main.js": "https://seanmizen.github.io/web3-messenger/static/js/main.13ae48fe.js",
+    "main.css": "https://seanmizen.github.io/web3-messenger/static/css/main.d5fcc01b.css",
+    "main.js": "https://seanmizen.github.io/web3-messenger/static/js/main.8ffa3fc9.js",
     "index.html": "https://seanmizen.github.io/web3-messenger/index.html",
-    "main.4a546405.css.map": "https://seanmizen.github.io/web3-messenger/static/css/main.4a546405.css.map",
-    "main.13ae48fe.js.map": "https://seanmizen.github.io/web3-messenger/static/js/main.13ae48fe.js.map"
+    "main.d5fcc01b.css.map": "https://seanmizen.github.io/web3-messenger/static/css/main.d5fcc01b.css.map",
+    "main.8ffa3fc9.js.map": "https://seanmizen.github.io/web3-messenger/static/js/main.8ffa3fc9.js.map"
   },
   "entrypoints": [
-    "static/css/main.4a546405.css",
-    "static/js/main.13ae48fe.js"
+    "static/css/main.d5fcc01b.css",
+    "static/js/main.8ffa3fc9.js"
   ]
 }
