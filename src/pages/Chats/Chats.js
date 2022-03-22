@@ -13,11 +13,19 @@ const tempChats = [
         senderAddress: "0x3",
         senderName: "John Smith",
         blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954706",
+        unixTimeStamp: "1647940000",
         body: "ur bad",
       },
       {
         id: 2,
+        senderAddress: "0x3",
+        senderName: "John Smith",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954706",
+        body: "I also think u smell",
+      },
+      {
+        id: 3,
         senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
         senderName: "Current User",
         blockTimeStamp: "1647954706",
@@ -108,8 +116,9 @@ let tempCurrentUser = {
 function Chats() {
   const [chats] = useState(tempChats);
   const [currentChatID, setCurrentChatID] = useState(0);
-  const [currentChat, setCurrentChat] = useState(chats[0] || {});
+  const [currentChat, setCurrentChat] = useState();
 
+  // update chat if a child component selects a new chatID
   useEffect(() => {
     chats.forEach((chat) => {
       if (chat.id === currentChatID) {

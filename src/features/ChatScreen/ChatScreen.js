@@ -1,44 +1,53 @@
 import styles from "./ChatScreen.module.css";
 import MessageInput from "./components/MessageInput";
+import Message from "./components/Message";
 
 function ChatScreen({ chat, currentUser }) {
+  if (typeof chat !== "object") {
+    return <div></div>;
+  }
+
   const chatLastActive = chat.messages.length
-    ? chat.messages[chat.messages.length - 1].unixTimestamp
-    : Date(0);
+    ? new Date(chat.messages[chat.messages.length - 1].unixTimeStamp * 1000)
+    : new Date(0);
 
   const prettyTime = (prefix, time) => {
-    return typeof time == "object"
-      ? prefix.trim() + " " + time.toLocaleDateString()
-      : "";
+    // if last active today, just say the time. if not, say the whole date.
+    if (typeof time !== "object") {
+      return "";
+    }
+    const now = new Date(Date.now());
+    let chatActiveToday =
+      now.toLocaleDateString() === time.toLocaleDateString();
+    const timeString = chatActiveToday
+      ? time.toLocaleTimeString()
+      : time.toLocaleString();
+    return prefix.trim() + " " + timeString;
   };
 
   return (
     <div className={styles["chat-screen"]}>
       <div className={styles["header"]}>
         <div className={styles["title"]}>{chat.name}</div>
-        {/* Let the following div collapse if timestamp is not available: */}
+        {/* The following div collapses if timestamp is not available: */}
         <div className={styles["meta"]}>
           {prettyTime("Chat last active at", chatLastActive)}
         </div>
       </div>
       <ul className={styles["chat-view"]}>
-        {chat.messages?.map((message) => {
-          let isCurrentUser = message.senderAddress === currentUser.address;
+        {chat.messages?.map((message, index) => {
+          let isSequential = false;
+          if (index > 0) {
+            isSequential =
+              chat.messages[index - 1].senderAddress === message.senderAddress;
+          }
+          const isCurrentUser = message.senderAddress === currentUser.address;
           return (
-            <li
-              className={
-                isCurrentUser ? styles["current-user"] : styles["other-user"]
-              }
-            >
-              <div className={styles["message"]}>
-                {!isCurrentUser && (
-                  <span className={styles["user-name"]}>
-                    {message.senderName || "Example name"}
-                  </span>
-                )}
-                <span>{message.body}</span>
-              </div>
-            </li>
+            <Message
+              isSequential={isSequential}
+              isCurrentUser={isCurrentUser}
+              message={message}
+            />
           );
         })}
       </ul>

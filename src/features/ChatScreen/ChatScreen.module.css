@@ -25,27 +25,40 @@
 
 .header .meta {
   font-weight: 200;
+  font-size: 0.8rem;
   /* metadata e.g. "chat last active x days ago" */
 }
 
 .chat-view {
   flex: 1;
   display: flex;
-  padding: 0.7rem;
+  padding: 0.7rem 1.5rem;
   flex-direction: column;
 }
 
 .chat-view li {
-  /* this must be a message */
+  /* outer box of a message - no background */
   display: flex;
-  padding: 0.2rem;
+  padding: 0.2rem 0.2rem;
+  margin-top: 0.3rem;
+}
+
+.chat-view li.sequential {
+  margin-top: 0;
+  padding-top: 0;
+}
+.sequential .user-name {
+  /* do not show username more than once */
+  display: none;
 }
 
 .message {
+  /* inner box of a message - the bubble */
   padding: 0.4rem;
-  flex: 1;
+  padding-right: 4rem;
   display: flex;
   flex-direction: column;
+  min-width: 10%;
   max-width: 70%;
   border-radius: 0.4rem;
 }
@@ -66,4 +79,24 @@
 
 .user-name {
   font-weight: 400;
+}
+
+.message .meta {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.message .meta .non-timestamp {
+  font-family: monospace;
+  font-size: 0.6rem;
+  flex: 1;
+}
+
+.message .meta .timestamp {
+  /* font-family: monospace; */
+  /* flex: 0; */
+  /* position: absolute; */
+  /* right: 0; */
+  font-size: 0.6rem;
 }
