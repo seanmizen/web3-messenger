@@ -1,0 +1,7 @@
+.menu-bar {
+  background-color: var(--header-background);
+  display: flex;
+  padding: 0.2rem 0.5rem;
+  height: 2.5rem;
+  /* width: 100%; */
+}

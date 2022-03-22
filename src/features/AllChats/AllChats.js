@@ -1,6 +1,7 @@
 import styles from "./AllChats.module.css";
 import ChatStub from "./components/ChatStub";
 import SearchBar from "./components/SearchBar";
+import MenuBar from "../../components/MenuBar";
 import { useState } from "react";
 
 const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
@@ -20,21 +21,24 @@ const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
   };
 
   return (
-    <ul className={styles["chat-list"]}>
+    <div className={styles["left-side"]}>
+      <MenuBar />
       <SearchBar key={-1} setSearchTerm={setSearchTerm}></SearchBar>
-      {chats?.filter(chatMatchesSearch).map((chat, index) => {
-        return (
-          <ChatStub
-            key={index}
-            chat={chat}
-            currentUser={currentUser}
-            chatStubIndex={index}
-            setCurrentChatID={setCurrentChatID}
-            currentChatID={currentChatID}
-          />
-        );
-      })}
-    </ul>
+      <ul className={styles["chat-list"]}>
+        {chats?.filter(chatMatchesSearch).map((chat, index) => {
+          return (
+            <ChatStub
+              key={index}
+              chat={chat}
+              currentUser={currentUser}
+              chatStubIndex={index}
+              setCurrentChatID={setCurrentChatID}
+              currentChatID={currentChatID}
+            />
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

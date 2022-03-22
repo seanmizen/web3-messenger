@@ -1,10 +1,12 @@
+import styles from "../AllChats.module.css";
+
 const SearchBar = ({ setSearchTerm }) => {
   const onChange = (e) => {
     setSearchTerm(e.currentTarget.value);
   };
   return (
-    <div>
-      <input onChange={onChange} />
+    <div className={styles["search-bar"]}>
+      <input placeholder="Search Chats" onChange={onChange} />
     </div>
   );
 };
