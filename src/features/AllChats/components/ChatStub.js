@@ -5,6 +5,13 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
   const onClick = () => {
     setCurrentChatID(chat.id);
   };
+
+  const timestamp = new Date(
+    (chat.messages.length
+      ? chat.messages[chat.messages.length - 1].unixTimeStamp
+      : 0) * 1000
+  );
+
   return (
     <li
       onClick={onClick}
@@ -21,6 +28,7 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
             chat.messages[chat.messages.length - 1].body) ||
           "\xa0"}
       </span>
+      {/* <span className="timestamp">{timestamp.toLocaleString}</span> */}
     </li>
   );
 };

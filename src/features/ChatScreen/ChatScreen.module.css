@@ -61,6 +61,7 @@
   min-width: 10%;
   max-width: 70%;
   border-radius: 0.4rem;
+  overflow: hidden;
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }

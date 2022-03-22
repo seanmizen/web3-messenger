@@ -147,17 +147,9 @@ function Chats() {
   const [currentChatID, setCurrentChatID] = useState(
     localStorage.getItem("currentChatID") || -1
   );
-  const findChatIndex = (chatID) => {
-    let indexFound = -1;
-    chats.forEach((chat, index) => {
-      if (chat.id === parseInt(chatID)) {
-        indexFound = index;
-        return indexFound;
-      }
-    });
-    return indexFound;
-  };
-  const chatIndexToRetrieve = findChatIndex(currentChatID);
+  const chatIndexToRetrieve = chats.findIndex(
+    ({ id }) => id === parseInt(currentChatID)
+  );
   const [currentChat, setCurrentChat] = useState(
     currentChatID > -1 ? chats[chatIndexToRetrieve] : {}
   );
