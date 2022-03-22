@@ -1,22 +1,6 @@
 import styles from "./ChatScreen.module.css";
 import MessageInput from "./components/MessageInput";
 
-// chat:
-// {
-//   id: 1,
-//   name: "My First Chat",
-//   messages: [
-//    {
-//      id: 1,
-//      senderAddress: "0x2",
-//      senderName: "John Smith",
-//      body: "body 1",
-//    }
-
-// currentUser:
-// .address
-// .privateKey <-- should not be exposed here
-
 function ChatScreen({ chat, currentUser }) {
   const chatLastActive = chat.messages.length
     ? chat.messages[chat.messages.length - 1].unixTimestamp
