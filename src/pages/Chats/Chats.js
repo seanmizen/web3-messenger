@@ -58,8 +58,41 @@ const tempChats = [
   },
   {
     id: 3,
-    name: "My Empty Chat",
-    messages: [],
+    name: "Harry's Special Chat",
+    messages: [
+      {
+        id: 1,
+        senderAddress: "0x3",
+        senderName: "Harry Hadden",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954600",
+        body: "Sean",
+      },
+      {
+        id: 2,
+        senderAddress: "0x3",
+        senderName: "Harry Hadden",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954601",
+        body: "I think I messed up",
+      },
+      {
+        id: 3,
+        senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
+        senderName: "Current User",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954700",
+        body: "same as usual yeah?",
+      },
+      {
+        id: 4,
+        senderAddress: "0x3",
+        senderName: "Harry Hadden",
+        blockTimeStamp: "1647954706",
+        unixTimeStamp: "1647954750",
+        body: "No shortarse this time it was ur mum",
+      },
+    ],
   },
   {
     id: 4,
