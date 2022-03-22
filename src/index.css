@@ -2,40 +2,64 @@
   color-scheme: light dark;
 }
 
-* {
-  border: 1px solid black;
-}
-
 .light {
   --color: #111;
   --background: #ddd;
-  --subsection-background: #ddd;
+  --subsection-background: #eee;
   --highlight: #4a9;
   --link: #000;
   --link-visted: #636;
   --nav-background: #ddd;
+  --header-background: rgb(230, 230, 230);
+  --light-border: #ccc;
   --nav-box-shadow: #2d006d;
+  --current-user: hsl(200, 91%, 91%);
+  --current-user-text: #111;
+  --other-user: hsl(200, 99%, 99%);
+  --other-user-text: #111;
 }
 .dark {
   --color: #cecece;
   --background: #333;
-  --subsection-background: #444;
+  --subsection-background: #484848;
   --highlight: #969;
   --link: #cecece;
   --link-visted: #636;
   --nav-background: #202020;
+  --header-background: #3f3f3f;
+  --light-border: #262626;
   --nav-box-shadow: #2d006d;
+  --current-user: hsl(200, 91%, 91%);
+  --current-user-text: #111;
+  --other-user: hsl(210, 1%, 30%);
+  --other-user-text: #cecece;
 }
-body {
+html,
+body,
+#root {
   color: var(--color);
   background: var(--background);
   display: flex;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  flex-direction: column-reverse;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex: 1;
 }
 
 * {
-  padding: 0.2rem;
+  /* padding: 0.2rem; */
   margin: 0;
   font-family: "Karla", "Courier New", Courier, monospace;
+  font-weight: 200;
 }
 
 .mono {
@@ -64,6 +88,11 @@ h1 {
   -o-animation: slideInFromTop 1s; /* Opera */
 }
 
+ul {
+  padding: 0;
+  list-style: none;
+}
+
 @keyframes slideInFromTop {
   0% {
     opacity: 0;
@@ -75,18 +104,11 @@ h1 {
   }
 }
 
-.container {
-  max-width: 100%;
-  width: 36rem;
-  margin: auto;
-  padding: 0 1rem;
-  position: relative;
-  height: 100%;
-}
 @media only screen and (min-width: 880px) {
-  .container {
+  /* .container {
+    TODO: re-add this?
     width: 72rem;
-  }
+  } */
 }
 
 a {
