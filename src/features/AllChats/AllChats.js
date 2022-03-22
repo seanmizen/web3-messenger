@@ -7,6 +7,10 @@ import { useState } from "react";
 const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const createNewChat = () => {
+    return "no";
+  };
+
   const chatMatchesSearch = (chat) => {
     if (searchTerm === "") {
       return true;
@@ -37,7 +41,7 @@ const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
           );
         })}
       </ul>
-      <MenuBar />
+      <MenuBar createNewChat={createNewChat} />
     </div>
   );
 };

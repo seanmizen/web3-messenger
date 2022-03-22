@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // new chat
 // settings
 
-const MenuBar = (createNewChat) => {
+const MenuBar = ({ createNewChat }) => {
   return (
     <div className={styles["menu-bar"]}>
       <Link to="/profile">
