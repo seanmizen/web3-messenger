@@ -14,7 +14,7 @@ const tempChats = [
         senderName: "John Smith",
         blockTimeStamp: "1647954706",
         unixTimeStamp: "1647940000",
-        body: "ur bad",
+        body: "Hello, friend",
       },
       {
         id: 2,
@@ -22,7 +22,7 @@ const tempChats = [
         senderName: "John Smith",
         blockTimeStamp: "1647954706",
         unixTimeStamp: "1647954706",
-        body: "I also think u smell",
+        body: "I hope you had a good day.",
       },
       {
         id: 3,
@@ -30,7 +30,7 @@ const tempChats = [
         senderName: "Current User",
         blockTimeStamp: "1647954706",
         unixTimeStamp: "1647954706",
-        body: "I responded to a message???",
+        body: "You too!",
       },
     ],
   },
@@ -82,7 +82,7 @@ const tempChats = [
         senderName: "Current User",
         blockTimeStamp: "1647954706",
         unixTimeStamp: "1647954700",
-        body: "same as usual yeah?",
+        body: "same as usual?",
       },
       {
         id: 4,
@@ -90,7 +90,7 @@ const tempChats = [
         senderName: "Harry Hadden",
         blockTimeStamp: "1647954706",
         unixTimeStamp: "1647954750",
-        body: "No shortarse this time it was ur mum",
+        body: "No, this time it was the haberdashery",
       },
     ],
   },
@@ -114,31 +114,6 @@ const tempChats = [
     name: "My Empty Chat",
     messages: [],
   },
-  {
-    id: 8,
-    name: "My Empty Chat",
-    messages: [],
-  },
-  {
-    id: 9,
-    name: "My Empty Chat 9",
-    messages: [],
-  },
-  {
-    id: 10,
-    name: "My Empty Chat 10",
-    messages: [],
-  },
-  // {
-  //   id: 11,
-  //   name: "My Empty Chat 11",
-  //   messages: [],
-  // },
-  // {
-  //   id: 12,
-  //   name: "My Empty Chat 12",
-  //   messages: [],
-  // },
 ];
 
 let tempCurrentUser = {
