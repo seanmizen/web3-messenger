@@ -176,29 +176,47 @@ function Chats() {
     let indexFound = -1;
     chats.forEach((chat, index) => {
       if (chat.id === parseInt(chatID)) {
-        console.log("returning " + index);
         indexFound = index;
         return indexFound;
       }
     });
-    console.log(indexFound);
     return indexFound;
   };
   const chatIndexToRetrieve = findChatIndex(currentChatID);
-  console.log("indexToRetrieve: " + chatIndexToRetrieve);
   const [currentChat, setCurrentChat] = useState(
     currentChatID > -1 ? chats[chatIndexToRetrieve] : {}
   );
+  const [currentUser] = useState(tempCurrentUser);
+
+  const submitMessageBody = (body) => {
+    let id = 1;
+    if (currentChat.messages.length > 0) {
+      id = currentChat.messages[currentChat.messages.length - 1].id + 1;
+    }
+    let senderAddress = currentUser.address;
+    let senderName = currentUser.name;
+    let blockTimeStamp = "";
+    let unixTimeStamp = Date.now();
+    let message = {
+      id,
+      senderAddress,
+      senderName,
+      blockTimeStamp,
+      unixTimeStamp,
+      body,
+    };
+    let chatCopy = { ...currentChat };
+    chatCopy.messages.push(message);
+    setCurrentChat(chatCopy);
+  };
 
   // update chat if a child component selects a new chatID
   useEffect(() => {
-    chats.forEach((chat) => {
-      if (chat.id === currentChatID) {
-        setCurrentChat(chat);
-        // console.log("setting stored currentChatID to " + currentChatID);
-        localStorage.setItem("currentChatID", currentChatID);
-      }
-    });
+    const currentChat = chats.find(({ id }) => currentChatID === id);
+    if (typeof currentChat != "undefined") {
+      setCurrentChat(currentChat);
+      localStorage.setItem("currentChatID", currentChatID);
+    }
   }, [chats, currentChatID]);
 
   return (
@@ -212,7 +230,11 @@ function Chats() {
         />
       </div>
       <div className={styles["chat-screen"]}>
-        <ChatScreen chat={currentChat} currentUser={tempCurrentUser} />
+        <ChatScreen
+          chat={currentChat}
+          currentUser={tempCurrentUser}
+          submitMessageBody={submitMessageBody}
+        />
       </div>
     </div>
   );

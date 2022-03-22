@@ -2,7 +2,7 @@ import styles from "./ChatScreen.module.css";
 import MessageInput from "./components/MessageInput";
 import Message from "./components/Message";
 
-function ChatScreen({ chat, currentUser }) {
+function ChatScreen({ chat, currentUser, submitMessageBody }) {
   if (typeof chat !== "object") {
     return <div></div>;
   }
@@ -44,6 +44,7 @@ function ChatScreen({ chat, currentUser }) {
           const isCurrentUser = message.senderAddress === currentUser.address;
           return (
             <Message
+              key={index}
               isSequential={isSequential}
               isCurrentUser={isCurrentUser}
               message={message}
@@ -51,7 +52,7 @@ function ChatScreen({ chat, currentUser }) {
           );
         })}
       </ul>
-      <MessageInput />
+      <MessageInput submitMessageBody={submitMessageBody} />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import styles from "../ChatScreen.module.css";
 const Message = ({ message, isCurrentUser, isSequential }) => {
   const timestamp = new Date(message.unixTimeStamp * 1000);
-
   return (
     <li
       className={
@@ -16,7 +15,7 @@ const Message = ({ message, isCurrentUser, isSequential }) => {
             {message.senderName || "Example name"}
           </span>
         )}
-        <span>{message.body}</span>
+        <span>{message.body || "\xa0"}</span>
         <div className={styles["meta"]}>
           {/* <div className={styles["non-timestamp"]}>[crypto metadata here]</div> */}
           <div className={styles["timestamp"]}>

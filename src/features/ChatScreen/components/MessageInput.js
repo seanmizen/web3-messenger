@@ -4,16 +4,22 @@ import { useRef, useState } from "react";
 const MessageInput = ({ chat, submitMessageBody }) => {
   const inputRef = useRef();
   const submitRef = useRef();
-  const [messageBody, setMessageBody] = useState();
+  const [messageBody, setMessageBody] = useState("");
 
   const onSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    if (messageBody === "") {
+      return;
+    }
+    submitMessageBody(messageBody);
+    setMessageBody("");
+    inputRef.current.value = "";
+    inputRef.current.focus();
   };
 
   const keyDown = (e) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
-      console.log("Submitting " + messageBody + "!");
       submitRef.current.click();
     }
   };
