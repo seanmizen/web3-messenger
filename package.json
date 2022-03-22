@@ -17,7 +17,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-pages": "REACT_APP_BASENAME=/web3-messenger/ PUBLIC_URL=https://seanmizen.github.io/web3-messenger/ react-scripts build"
   },
   "eslintConfig": {
     "extends": [
