@@ -146,16 +146,57 @@ let tempCurrentUser = {
   name: "Current User",
 };
 
+// function setItem(item) {
+//   const newList = [...list];
+//   const index = list.findIndex((listItem) => listItem.id === item.id);
+
+//   //this next bit is cool -
+//   //destructure your newlist[item] and your item and then re-merge them.
+//   //because "item" is later than "newList[item]"", it's values will take priority.
+//   newList[index] = {
+//     ...newList[index],
+//     ...item,
+//   };
+//   setList(newList);
+// }
+
+// const clearLocalStorage = () => {
+//   setDeckName("");
+//   setList([]);
+//   localStorage.clear();
+//   return 0;
+// };
+
 function Chats() {
   const [chats] = useState(tempChats);
-  const [currentChatID, setCurrentChatID] = useState(0);
-  const [currentChat, setCurrentChat] = useState();
+  const [currentChatID, setCurrentChatID] = useState(
+    localStorage.getItem("currentChatID") || -1
+  );
+  const findChatIndex = (chatID) => {
+    let indexFound = -1;
+    chats.forEach((chat, index) => {
+      if (chat.id === parseInt(chatID)) {
+        console.log("returning " + index);
+        indexFound = index;
+        return indexFound;
+      }
+    });
+    console.log(indexFound);
+    return indexFound;
+  };
+  const chatIndexToRetrieve = findChatIndex(currentChatID);
+  console.log("indexToRetrieve: " + chatIndexToRetrieve);
+  const [currentChat, setCurrentChat] = useState(
+    currentChatID > -1 ? chats[chatIndexToRetrieve] : {}
+  );
 
   // update chat if a child component selects a new chatID
   useEffect(() => {
     chats.forEach((chat) => {
       if (chat.id === currentChatID) {
         setCurrentChat(chat);
+        // console.log("setting stored currentChatID to " + currentChatID);
+        localStorage.setItem("currentChatID", currentChatID);
       }
     });
   }, [chats, currentChatID]);
