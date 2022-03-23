@@ -1,29 +1,18 @@
 import styles from "./ChatScreen.module.css";
 import MessageInput from "./components/MessageInput";
 import Message from "./components/Message";
+import { prettyTime } from "../../pages/Chats";
 
 function ChatScreen({ chat, currentUser, submitMessageBody }) {
   if (typeof chat !== "object") {
     return <div></div>;
   }
 
-  const chatLastActive = chat.messages.length
-    ? new Date(chat.messages[chat.messages.length - 1].unixTimeStamp * 1000)
-    : new Date(0);
-
-  const prettyTime = (prefix, time) => {
-    // if last active today, just say the time. if not, say the whole date.
-    if (typeof time !== "object") {
-      return "";
-    }
-    const now = new Date(Date.now());
-    let chatActiveToday =
-      now.toLocaleDateString() === time.toLocaleDateString();
-    const timeString = chatActiveToday
-      ? time.toLocaleTimeString()
-      : time.toLocaleString();
-    return prefix.trim() + " " + timeString;
-  };
+  const chatLastActive = new Date(
+    chat.messages.length
+      ? parseInt(chat.messages[chat.messages.length - 1].unixTimeStamp)
+      : 0
+  );
 
   return (
     <div className={styles["chat-screen"]}>
@@ -31,7 +20,7 @@ function ChatScreen({ chat, currentUser, submitMessageBody }) {
         <div className={styles["title"]}>{chat.name}</div>
         {/* The following div collapses if timestamp is not available: */}
         <div className={styles["meta"]}>
-          {prettyTime("Chat last active at", chatLastActive)}
+          {prettyTime(chatLastActive, "Chat last active at")}
         </div>
       </div>
       <ul className={styles["chat-view"]}>

@@ -1,4 +1,5 @@
 import styles from "../AllChats.module.css";
+import { prettyTime } from "../../../pages/Chats";
 // displays the chat title and the last message or event in the chat
 
 const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
@@ -7,9 +8,9 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
   };
 
   const timestamp = new Date(
-    (chat.messages.length
-      ? chat.messages[chat.messages.length - 1].unixTimeStamp
-      : 0) * 1000
+    chat.messages.length
+      ? parseInt(chat.messages[chat.messages.length - 1].unixTimeStamp)
+      : 0
   );
 
   return (
@@ -28,7 +29,7 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
             chat.messages[chat.messages.length - 1].body) ||
           "\xa0"}
       </span>
-      <span className={styles["timestamp"]}>{timestamp.toLocaleString()}</span>
+      <span className={styles["timestamp"]}>{prettyTime(timestamp)}</span>
     </li>
   );
 };

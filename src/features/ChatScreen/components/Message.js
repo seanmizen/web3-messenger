@@ -1,6 +1,6 @@
 import styles from "../ChatScreen.module.css";
 const Message = ({ message, isCurrentUser, isSequential }) => {
-  const timestamp = new Date(message.unixTimeStamp * 1000);
+  const timestamp = new Date(parseInt(message.unixTimeStamp));
   return (
     <li
       className={

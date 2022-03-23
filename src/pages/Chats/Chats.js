@@ -1,7 +1,6 @@
 import styles from "./Chats.module.css";
 import { ChatScreen, AllChats } from "../../features";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const tempChats = [
   {
@@ -12,24 +11,24 @@ const tempChats = [
         id: 1,
         senderAddress: "0x3",
         senderName: "John Smith",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647940000",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
         body: "Hello, friend",
       },
       {
         id: 2,
         senderAddress: "0x3",
         senderName: "John Smith",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954706",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
         body: "I hope you had a good day.",
       },
       {
         id: 3,
         senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
         senderName: "Current User",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954706",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
         body: "You too!",
       },
     ],
@@ -42,16 +41,16 @@ const tempChats = [
         id: 1,
         senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
         senderName: "Current User",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954706",
+        blockTimeStamp: "1648020000000",
+        unixTimeStamp: "1648020000000",
         body: "I sent a message!",
       },
       {
         id: 2,
         senderAddress: "0x3",
         senderName: "not u",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954706",
+        blockTimeStamp: "1648020000000",
+        unixTimeStamp: "1648026000000",
         body: "I responded.",
       },
     ],
@@ -64,32 +63,32 @@ const tempChats = [
         id: 1,
         senderAddress: "0x3",
         senderName: "Harry Hadden",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954600",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
         body: "Sean",
       },
       {
         id: 2,
         senderAddress: "0x3",
         senderName: "Harry Hadden",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954601",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
         body: "I think I messed up",
       },
       {
         id: 3,
         senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
         senderName: "Current User",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954700",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
         body: "same as usual?",
       },
       {
         id: 4,
         senderAddress: "0x3",
         senderName: "Harry Hadden",
-        blockTimeStamp: "1647954706",
-        unixTimeStamp: "1647954750",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
         body: "No, this time it was the haberdashery",
       },
     ],
@@ -141,6 +140,19 @@ let tempCurrentUser = {
 //   localStorage.clear();
 //   return 0;
 // };
+
+export const prettyTime = (time, prefix = "") => {
+  // if last active today, just say the time. if not, say the whole date.
+  if (typeof time !== "object") {
+    return "";
+  }
+  const now = new Date(Date.now());
+  let chatActiveToday = now.toLocaleDateString() === time.toLocaleDateString();
+  const timeString = chatActiveToday
+    ? time.toLocaleTimeString()
+    : time.toLocaleString();
+  return (prefix.trim() + " " + timeString).trim();
+};
 
 function Chats() {
   const [chats] = useState(tempChats);

@@ -17,7 +17,6 @@ const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
     }
     chat.messages.forEach((message) => {
       if (message.body.toLowerCase().includes(searchTerm.toLowerCase())) {
-        console.log(message.body);
         return true;
       }
     });
