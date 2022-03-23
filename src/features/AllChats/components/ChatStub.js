@@ -8,7 +8,7 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
   };
 
   const timestamp = new Date(
-    chat.messages.length
+    chat.messages?.length
       ? parseInt(chat.messages[chat.messages.length - 1].unixTimeStamp)
       : 0
   );
@@ -20,7 +20,7 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
     >
       <span className={styles["stub-name"]}>{chat.name || "\xa0"}</span>
       <span className={styles["stub-last-message"]}>
-        {(chat.messages.length &&
+        {(chat.messages?.length &&
           (chat.messages[chat.messages.length - 1].senderName ===
           currentUser.name
             ? "You"

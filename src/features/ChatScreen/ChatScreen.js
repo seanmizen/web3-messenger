@@ -9,7 +9,7 @@ function ChatScreen({ chat, currentUser, submitMessageBody }) {
   }
 
   const chatLastActive = new Date(
-    chat.messages.length
+    chat.messages?.length
       ? parseInt(chat.messages[chat.messages.length - 1].unixTimeStamp)
       : 0
   );

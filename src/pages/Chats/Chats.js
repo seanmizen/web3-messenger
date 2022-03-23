@@ -169,9 +169,8 @@ function Chats() {
 
   const submitMessageBody = (body) => {
     let id = 1;
-    if (currentChat.messages.length > 0) {
-      id = currentChat.messages[currentChat.messages.length - 1].id + 1;
-    }
+    currentChat.messages?.length &&
+      (id = currentChat.messages[currentChat.messages.length - 1].id + 1);
     let senderAddress = currentUser.address;
     let senderName = currentUser.name;
     let blockTimeStamp = "";

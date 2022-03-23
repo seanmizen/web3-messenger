@@ -1,2 +1,4 @@
 import ThemeToggle from "./ThemeToggle";
-export { ThemeToggle };
+import MenuBar from "./MenuBar";
+import Web3Debug from "./Web3Debug";
+export { ThemeToggle, MenuBar, Web3Debug };

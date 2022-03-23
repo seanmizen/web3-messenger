@@ -1,5 +1,6 @@
 import "./index.css";
-import { Nav, Web3Debug } from "./core";
+import { Nav } from "./core";
+import { Web3Debug } from "./components";
 import { Chats, Settings, Profile } from "./pages";
 import { ThemeProvider } from "./Theme";
 import { Web3Provider } from "./services";

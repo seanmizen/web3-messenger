@@ -18,6 +18,7 @@
   --other-user: hsl(200, 99%, 99%);
   --other-user-text: #111;
   --debug-color: #fff;
+  --debug-live-info-color: #00ff00;
   --debug-background-color: #000;
 }
 .dark {
@@ -36,6 +37,7 @@
   --other-user: hsl(210, 1%, 30%);
   --other-user-text: #cecece;
   --debug-color: #000;
+  --debug-live-info-color: #088108;
   --debug-background-color: #fff;
 }
 html,
