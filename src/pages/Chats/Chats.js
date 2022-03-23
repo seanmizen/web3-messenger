@@ -191,7 +191,7 @@ function Chats() {
       <div className={styles["all-chats"]}>
         <AllChats
           chats={chats}
-          currentUser={tempCurrentUser}
+          currentUser={currentUser}
           currentChatID={currentChatID}
           setCurrentChatID={setCurrentChatID}
         />
@@ -199,7 +199,7 @@ function Chats() {
       <div className={styles["chat-screen"]}>
         <ChatScreen
           chat={currentChat}
-          currentUser={tempCurrentUser}
+          currentUser={currentUser}
           submitMessageBody={submitMessageBody}
         />
       </div>
