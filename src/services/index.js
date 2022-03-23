@@ -1,2 +1,2 @@
-import Web3Context from "./Web3Context";
-export { Web3Context };
+import { Web3Context, Web3Provider, useChats } from "./Web3Context";
+export { Web3Context, Web3Provider, useChats };
