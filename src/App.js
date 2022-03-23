@@ -2,15 +2,15 @@ import "./index.css";
 import { Nav } from "./core";
 import { Chats, Settings, Profile } from "./pages";
 import { ThemeProvider } from "./Theme";
-// import { Web3 } from "./services";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import { Web3Context } from "./services/";
+import { Web3Context } from "./services";
 
 function App() {
+  const context = Web3Context;
   return (
     <ThemeProvider>
       <Router basename={process.env.REACT_APP_BASENAME}>
-        <Nav />
+        <Nav context={context} />
         <div className="container">
           <Routes>
             {/* FYI: "Routes" is the same as "Switch" - the name has changed */}
