@@ -4,6 +4,7 @@ import { Chats, Settings, Profile } from "./pages";
 import { ThemeProvider } from "./Theme";
 // import { Web3 } from "./services";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { Web3Context } from "./services/";
 
 function App() {
   return (

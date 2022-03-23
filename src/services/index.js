@@ -1,2 +1,2 @@
-import Web3 from "./Web3";
-export { Web3 };
+import Web3Context from "./Web3Context";
+export { Web3Context };
