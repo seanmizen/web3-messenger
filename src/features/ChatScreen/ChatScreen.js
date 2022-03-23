@@ -13,14 +13,15 @@ function ChatScreen({ chat, currentUser, submitMessageBody }) {
       ? parseInt(chat.messages[chat.messages.length - 1].unixTimeStamp)
       : 0
   );
-
   return (
     <div className={styles["chat-screen"]}>
       <div className={styles["header"]}>
         <div className={styles["title"]}>{chat.name}</div>
-        {/* The following div collapses if timestamp is not available: */}
+        {/* The following div collapses if timestamp is not available (chatLastActive === 0) */}
         <div className={styles["meta"]}>
-          {prettyTime(chatLastActive, "Chat last active at")}
+          {chatLastActive.valueOf() === 0
+            ? ""
+            : prettyTime(chatLastActive, "Chat last active at")}
         </div>
       </div>
       <ul className={styles["chat-view"]}>

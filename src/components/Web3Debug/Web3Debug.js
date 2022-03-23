@@ -7,7 +7,7 @@ import { useContext } from "react";
 
 // Debug information bar across the top of the website. Designed to look minimal and B/W!
 const Web3Debug = () => {
-  const { latestBlock, lastUpdated } = useContext(Web3Context);
+  const { latestBlock, lastUpdated, createChat } = useContext(Web3Context);
   const chats = useChats("userAddress"); // every time this changes, a rerender will be triggered
   return (
     <div className={styles["debug-bar"]}>
@@ -30,7 +30,7 @@ const Web3Debug = () => {
         </span>{" "}
         chats
       </div>
-      {/* <button onClick={createChat("fff")}>t</button> */}
+      <button onClick={createChat("fff")}>t</button>
     </div>
   );
 };

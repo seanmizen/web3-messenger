@@ -5,11 +5,70 @@ import SimpleMessagesJSON from "../contracts/artifacts/SimpleMessages.json";
 
 const defaultUser = {
   name: "",
-  address: "",
-  key: "",
+  address: "0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096",
 };
 
-const defaultChats = [];
+//uint256 chatID;
+//string name;
+//address[] currentUsers;
+//Message[] messages;
+//uint256 length; // Allows for easy interrogation in app
+
+const defaultChats = {
+  1: {
+    chatID: 2,
+    name: "My First Chat",
+    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
+    messages: [
+      {
+        id: 1,
+        senderAddress: "0x3",
+        senderName: "John Smith",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
+        body: "Hello, friend",
+      },
+    ],
+  },
+  2: {
+    chatID: 2,
+    name: "My First Chat",
+    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
+    messages: [
+      {
+        id: 1,
+        senderAddress: "0x3",
+        senderName: "John Smith",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
+        body: "Hello, friend",
+      },
+      {
+        id: 2,
+        senderAddress: "0x3",
+        senderName: "John Smith",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
+        body: "I hope you had a good day.",
+      },
+      {
+        id: 3,
+        senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
+        senderName: "Current User",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
+        body: "You too!",
+      },
+    ],
+  },
+  3: {
+    chatID: 2,
+    name: "Another Chat",
+    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
+    messages: [],
+  },
+};
+
 // let web3 = new Web3(Web3.givenProvider || "ws://127.0.0.1:7545");
 let web3 = new Web3("ws://127.0.0.1:7545");
 //("ws://" + process.env.DEFAULT_RPC_ADDRESS;
@@ -21,10 +80,47 @@ const SimpleMessages = new web3.eth.Contract(
   // "0x2aA35916Bba3435B49Ea8A4719603A5E0211Aba1"
 );
 
+SimpleMessages.options.address = "0x8CB1154C9D6c2b3394F21CB8fe0F7e1A6F74316b";
+
 export const Web3Provider = ({ children }) => {
   const [lastUpdated, setLastUpdated] = useState(0);
   const [latestBlock, setLatestBlock] = useState({ number: -1 });
   const [pendingTransactions, setPendingTransactions] = useState();
+  const [currentUser] = useState(defaultUser);
+  const [userChats] = useState([2]);
+  const [chats, setChats] = useState(defaultChats);
+
+  // updateChats - force re-poll each chat listed
+  // can be used to update a single chat
+  const updateChats = (chatIDs) => {
+    chatIDs.forEach((chatID) => {
+      console.log("Chat id " + chatID);
+      //update name
+      SimpleMessages.methods
+        .chats(chatID)
+        .call({
+          from: currentUser.address,
+        })
+        .then((result) => {
+          let chat = chats[chatID];
+          chat.name = result.name;
+          setChats({ chatID: chat, ...chats });
+        });
+
+      //update messages
+      SimpleMessages.methods
+        .getChatMessages(chatID)
+        .call({
+          from: currentUser.address,
+        })
+        .then((result) => {
+          let chat = chats[chatID];
+          chat.messages = result; //for now simply overwrite the entire result //
+          setChats({ chatID: chat, ...chats });
+        });
+    });
+    return;
+  };
 
   // useEffect to update "lastUpdated" state
   useEffect(() => {
@@ -70,8 +166,35 @@ export const Web3Provider = ({ children }) => {
     };
   }, []);
 
-  // web3.eth.getAccounts().then(console.log);
+  //https://ethereum.stackexchange.com/questions/35997/how-to-listen-to-events-using-web3-v1-0
+  // useEffect to listen for messages
+  useEffect(() => {
+    let messageListener = SimpleMessages.events
+      .messagePosted(
+        {
+          // filter: {myIndexedParam: [20,23], myOtherIndexedParam: '0x123456789...'}, // Using an array means OR: e.g. 20 or 23
+          // fromBlock: 0
+        },
+        (error, event) => {
+          // console.log(event);
+          console.log(event.returnValues._chatID);
+          const chatID = event.returnValues._chatID;
+          updateChats([chatID]);
+        }
+      )
+      .on("data", (event) => {
+        // console.log(event); // same results as the optional callback above
+      })
+      .on("changed", (event) => {
+        // remove event from local database
+      })
+      .on("error", console.error);
 
+    // return;
+    return messageListener.unsubscribe();
+  }, [userChats]);
+
+  // useEffect to listen for pendingTransactions
   useEffect(() => {
     const pendingTransactionsSubscription = web3.eth
       .subscribe("pendingTransactions", (error, result) => {
@@ -97,23 +220,33 @@ export const Web3Provider = ({ children }) => {
 
   const createChat = (name) => {
     console.log("creating chat " + name);
-    SimpleMessages.methods
+    let f = SimpleMessages.methods
       .createChat(name)
-      .send()
+      .send({
+        from: currentUser.address,
+      })
       .on("receipt", (error, result) => {
         if (!error) {
           console.log(result);
         }
         //handle error
       });
-    // console.log(f);
+    console.log(f);
+  };
 
-    // .on("receipt", (error, result) => {
-    //   if (!error) {
-    //     console.log(result);
-    //   }
-    //   //handle error
-    // });
+  const postMessage = (chatID, message) => {
+    const timeStamp = Date.now();
+
+    SimpleMessages.methods
+      .postMessage(chatID, "hi", timeStamp)
+      .send({
+        from: currentUser.address,
+      })
+      .on("receipt", (error, result) => {
+        console.log("Sent message!");
+        console.log(result);
+      });
+    return;
   };
 
   return (
@@ -126,9 +259,10 @@ export const Web3Provider = ({ children }) => {
         latestBlock,
         pendingTransactions,
         createChat,
+        postMessage,
         // SimpleMessages,
-        currentUser: defaultUser,
-        chats: defaultChats,
+        currentUser: currentUser,
+        chats: chats,
       }}
     >
       {children}

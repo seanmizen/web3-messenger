@@ -2,7 +2,7 @@ import styles from "./Chats.module.css";
 import { ChatScreen, AllChats } from "../../features";
 import { useState, useEffect } from "react";
 
-const tempChats = [
+const tempChatsOrig = [
   {
     id: 1,
     name: "My First Chat",
@@ -112,6 +112,39 @@ const tempChats = [
     id: 7,
     name: "My Empty Chat",
     messages: [],
+  },
+];
+
+const tempChats = [
+  {
+    chatID: 2,
+    name: "My First Chat",
+    messages: [
+      {
+        id: 1,
+        senderAddress: "0x3",
+        senderName: "John Smith",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
+        body: "Hello, friend",
+      },
+      {
+        id: 2,
+        senderAddress: "0x3",
+        senderName: "John Smith",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
+        body: "I hope you had a good day.",
+      },
+      {
+        id: 3,
+        senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
+        senderName: "Current User",
+        blockTimeStamp: "1648028969820",
+        unixTimeStamp: "1648028969820",
+        body: "You too!",
+      },
+    ],
   },
 ];
 
