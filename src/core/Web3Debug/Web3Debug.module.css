@@ -1,0 +1,22 @@
+.debug-bar {
+  display: flex;
+  flex-direction: row;
+  color: var(--debug-color);
+  background-color: var(--debug-background-color);
+  font-size: 0.8rem;
+}
+
+.debug-bar div {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.live-info {
+  color: rgb(0, 200, 0);
+}
+
+/* .debug-bar {
+  display: none;
+} */
