@@ -16,8 +16,13 @@ let web3 = new Web3("ws://127.0.0.1:7545");
 
 export const Web3Context = React.createContext({});
 
+const SimpleMessages = new web3.eth.Contract(
+  SimpleMessagesJSON.abi
+  // "0xa228b2051ef5109e4a8496505674981f9b4d7c32"
+);
+
 export const Web3Provider = ({ children }) => {
-  const [lastUpdated, setLastUpdated] = useState();
+  const [lastUpdated, setLastUpdated] = useState(0);
   const [latestBlock, setLatestBlock] = useState({ number: -1 });
   const [pendingTransactions, setPendingTransactions] = useState();
 
@@ -26,10 +31,24 @@ export const Web3Provider = ({ children }) => {
     setLastUpdated(Date.now());
   }, [latestBlock, pendingTransactions]);
 
+  // useEffect to monitor sync events
+  useEffect(() => {
+    const syncingSubscription = web3.eth.subscribe(
+      "syncing",
+      (error, result) => {
+        if (!error) {
+          console.log("Sync event taking place.");
+          console.log(result);
+        }
+      }
+    );
+    return syncingSubscription.unsubscribe();
+  }, []);
+
   // useEffect to monitor block updates
   useEffect(() => {
     const newBlockHeadersSubscription = web3.eth
-      .subscribe("newBlockHeaders", function (error, result) {
+      .subscribe("newBlockHeaders", (error, result) => {
         if (!error) {
           setLatestBlock(result);
           // web3.eth.getTransactionReceipt("address?").then(console.log);
@@ -55,7 +74,7 @@ export const Web3Provider = ({ children }) => {
 
   useEffect(() => {
     const pendingTransactionsSubscription = web3.eth
-      .subscribe("pendingTransactions", function (error, result) {
+      .subscribe("pendingTransactions", (error, result) => {
         // awaiting transactions
       })
       .on("data", function (transaction) {
@@ -70,7 +89,32 @@ export const Web3Provider = ({ children }) => {
 
   //web3.eth.Contract.transcationBlockTimeout -- TODO use this to see if a message has failed?
 
-  const SimpleMessages = new web3.eth.Contract(SimpleMessagesJSON.abi);
+  // console.log(SimpleMessages.methods);
+  // SimpleMessages.methods.somFunc().send({from: 0x84Bc529771C13D548737517Ad92204D8E2Df75F6
+  // .on('receipt', function(){
+  //     ...
+  // });
+
+  const createChat = (name) => {
+    console.log("creating chat " + name);
+    SimpleMessages.methods
+      .createChat(name)
+      .send()
+      .on("receipt", (error, result) => {
+        if (!error) {
+          console.log(result);
+        }
+        //handle error
+      });
+    // console.log(f);
+
+    // .on("receipt", (error, result) => {
+    //   if (!error) {
+    //     console.log(result);
+    //   }
+    //   //handle error
+    // });
+  };
 
   return (
     <Web3Context.Provider
@@ -81,7 +125,8 @@ export const Web3Provider = ({ children }) => {
         lastUpdated,
         latestBlock,
         pendingTransactions,
-        SimpleMessages,
+        createChat,
+        // SimpleMessages,
         currentUser: defaultUser,
         chats: defaultChats,
       }}
@@ -95,8 +140,6 @@ export const Web3Provider = ({ children }) => {
 
 // -make a contract call (or any web3.blah function call)
 // web3.eth.sendTransaction
-//
-// -
 
 export const useChats = (userAddress) => {
   const [chatList] = useState([]);

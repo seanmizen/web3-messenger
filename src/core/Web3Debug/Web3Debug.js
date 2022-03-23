@@ -1,5 +1,4 @@
 import { Web3Context, useChats } from "../../services";
-import { useState } from "react";
 import styles from "./Web3Debug.module.css";
 import { useContext } from "react";
 // import { useEffect } from "react";
@@ -8,37 +7,30 @@ import { useContext } from "react";
 
 // Debug information bar across the top of the website. Designed to look minimal and B/W!
 const Web3Debug = () => {
-  //   const context = Web3Context;
-  //   const [latestBlock, setLatestBlock] = useState({ number: -1 });
-  //   const [latestBlockNumber, setLatestBlockNumber] = useState();
-  const [lastUpdated] = useState(new Date(0));
-  const { latestBlock } = useContext(Web3Context);
+  const { latestBlock, lastUpdated } = useContext(Web3Context);
   const chats = useChats("userAddress"); // every time this changes, a rerender will be triggered
-
-  //   useEffect(() => {web3.eth.getAccounts}, [])
-
-  //   console.log(context.web3.currentUser);
-  //   context.web3.eth.getBlock(context.web3.eth.defaultBlock).then(setLatestBlock);
-  //   console.log(context.);
-  //   web3.eth.getBlock(web3.eth.defaultBlock).then(setLatestBlock);
-
-  //TODO why is this not working?
-  //   useEffect(() => {
-  //     setLatestBlockNumber(latestBlock.number);
-  //   }, [latestBlock]);
-
-  //   web3.eth.getAccounts().then(console.log);
-
   return (
     <div className={styles["debug-bar"]}>
       <div>
         Latest Block:{" "}
         <span className={latestBlock?.number === -1 ? "" : styles["live-info"]}>
-          {latestBlock?.number}
+          {latestBlock?.number === -1 ? "-" : latestBlock?.number}
         </span>
       </div>
-      <div>Last updated: {lastUpdated?.toLocaleString()}</div>
-      <div></div>
+      <div>
+        Last updated:{" "}
+        <span className={lastUpdated === 0 ? "" : styles["live-info"]}>
+          {lastUpdated === 0 ? "-" : new Date(lastUpdated).toLocaleString()}
+        </span>
+      </div>
+      <div>
+        Subscribed to{" "}
+        <span className={chats?.length === 0 ? "" : styles["live-info"]}>
+          {chats?.length}
+        </span>{" "}
+        chats
+      </div>
+      {/* <button onClick={createChat("fff")}>t</button> */}
     </div>
   );
 };

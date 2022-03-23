@@ -1,9 +1,19 @@
 .debug-bar {
   display: flex;
   flex-direction: row;
+  font-family: "Courier New", Courier, monospace;
   color: var(--debug-color);
   background-color: var(--debug-background-color);
   font-size: 0.8rem;
+}
+
+.debug-bar * {
+  font-family: inherit;
+}
+
+.debug-bar button {
+  height: 1rem;
+  font-size: 0.5rem;
 }
 
 .debug-bar div {
