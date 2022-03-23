@@ -24,7 +24,7 @@
 }
 
 .live-info {
-  color: rgb(0, 200, 0);
+  color: var(--debug-live-info-color);
 }
 
 /* .debug-bar {
