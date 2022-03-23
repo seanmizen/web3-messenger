@@ -88,7 +88,7 @@ const tempChats = [
         senderAddress: "0x3",
         senderName: "Harry Hadden",
         blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
+        unixTimeStamp: "1648030000000",
         body: "No, this time it was the haberdashery",
       },
     ],

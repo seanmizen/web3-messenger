@@ -27,18 +27,25 @@ const AllChats = ({ chats, currentUser, currentChatID, setCurrentChatID }) => {
     <div className={styles["left-side"]}>
       <SearchBar key={-1} setSearchTerm={setSearchTerm}></SearchBar>
       <ul className={styles["chat-list"]}>
-        {chats?.filter(chatMatchesSearch).map((chat, index) => {
-          return (
-            <ChatStub
-              key={index}
-              chat={chat}
-              currentUser={currentUser}
-              chatStubIndex={index}
-              setCurrentChatID={setCurrentChatID}
-              currentChatID={currentChatID}
-            />
-          );
-        })}
+        {chats
+          ?.filter(chatMatchesSearch)
+          .sort(
+            (a, b) =>
+              b.messages[b.messages.length - 1]?.unixTimeStamp -
+              a.messages[a.messages.length - 1]?.unixTimeStamp
+          )
+          .map((chat, index) => {
+            return (
+              <ChatStub
+                key={index}
+                chat={chat}
+                currentUser={currentUser}
+                chatStubIndex={index}
+                setCurrentChatID={setCurrentChatID}
+                currentChatID={currentChatID}
+              />
+            );
+          })}
       </ul>
       <MenuBar createNewChat={createNewChat} />
     </div>
