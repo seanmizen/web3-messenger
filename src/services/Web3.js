@@ -18,7 +18,7 @@ export const Web3Context = React.createContext({});
 
 const SimpleMessages = new web3.eth.Contract(
   SimpleMessagesJSON.abi
-  // "0xa228b2051ef5109e4a8496505674981f9b4d7c32"
+  // "0x2aA35916Bba3435B49Ea8A4719603A5E0211Aba1"
 );
 
 export const Web3Provider = ({ children }) => {
@@ -79,7 +79,7 @@ export const Web3Provider = ({ children }) => {
       })
       .on("data", function (transaction) {
         //pending transaction received
-        // console.log("pending transaction: " + transaction);
+        console.log("pending transaction: " + transaction);
         setPendingTransactions(transaction);
       });
     return () => {
