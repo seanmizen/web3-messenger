@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import SimpleMessagesJSON from "../contracts/artifacts/SimpleMessages.json";
 
-const defaultUser = {
-  name: "",
-  address: "0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096",
+let defaultUser = {
+  address: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
+  name: "Current User",
 };
 
 //uint256 chatID;
@@ -86,7 +86,7 @@ export const Web3Provider = ({ children }) => {
   const [lastUpdated, setLastUpdated] = useState(0);
   const [latestBlock, setLatestBlock] = useState({ number: -1 });
   const [pendingTransactions, setPendingTransactions] = useState();
-  const [currentUser] = useState(defaultUser);
+  const [user] = useState(defaultUser);
   const [userChats] = useState([2]);
   const [chats, setChats] = useState(defaultChats);
 
@@ -99,7 +99,7 @@ export const Web3Provider = ({ children }) => {
       SimpleMessages.methods
         .chats(chatID)
         .call({
-          from: currentUser.address,
+          from: user.address,
         })
         .then((result) => {
           let chat = chats[chatID];
@@ -111,7 +111,7 @@ export const Web3Provider = ({ children }) => {
       SimpleMessages.methods
         .getChatMessages(chatID)
         .call({
-          from: currentUser.address,
+          from: user.address,
         })
         .then((result) => {
           let chat = chats[chatID];
@@ -223,7 +223,7 @@ export const Web3Provider = ({ children }) => {
     let f = SimpleMessages.methods
       .createChat(name)
       .send({
-        from: currentUser.address,
+        from: user.address,
       })
       .on("receipt", (error, result) => {
         if (!error) {
@@ -236,11 +236,12 @@ export const Web3Provider = ({ children }) => {
 
   const postMessage = (chatID, message) => {
     const timeStamp = Date.now();
+    console.log("posting message " + message);
 
     SimpleMessages.methods
       .postMessage(chatID, "hi", timeStamp)
       .send({
-        from: currentUser.address,
+        from: user.address,
       })
       .on("receipt", (error, result) => {
         console.log("Sent message!");
@@ -261,7 +262,7 @@ export const Web3Provider = ({ children }) => {
         createChat,
         postMessage,
         // SimpleMessages,
-        currentUser: currentUser,
+        user: user,
         chats: chats,
       }}
     >

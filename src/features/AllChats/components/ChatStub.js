@@ -2,9 +2,16 @@ import styles from "../AllChats.module.css";
 import { prettyTime } from "../../../pages/Chats";
 // displays the chat title and the last message or event in the chat
 
-const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
+const ChatStub = ({
+  chat,
+  user,
+  currentChatID,
+  setCurrentChatID,
+  displayIndex,
+  currentChatDisplayIndex,
+}) => {
   const onClick = () => {
-    setCurrentChatID(chat.id);
+    setCurrentChatID(chat.chatID);
   };
 
   const timestamp = new Date(
@@ -16,13 +23,14 @@ const ChatStub = ({ chat, currentUser, currentChatID, setCurrentChatID }) => {
   return (
     <li
       onClick={onClick}
-      className={chat.id === currentChatID ? styles["current-chat"] : ""}
+      className={
+        displayIndex === currentChatDisplayIndex ? styles["current-chat"] : ""
+      }
     >
       <span className={styles["stub-name"]}>{chat.name || "\xa0"}</span>
       <span className={styles["stub-last-message"]}>
         {(chat.messages?.length &&
-          (chat.messages[chat.messages.length - 1].senderName ===
-          currentUser.name
+          (chat.messages[chat.messages.length - 1].senderName === user.name
             ? "You"
             : chat.messages[chat.messages.length - 1].senderName) +
             ": " +

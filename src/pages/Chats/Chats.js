@@ -1,11 +1,13 @@
 import styles from "./Chats.module.css";
 import { ChatScreen, AllChats } from "../../features";
-import { useState, useEffect } from "react";
+import { Web3Context } from "../../services";
+import { useState, useEffect, useContext } from "react";
 
-const tempChatsOrig = [
-  {
-    id: 1,
+const defaultChats = {
+  1: {
+    chatID: 1,
     name: "My First Chat",
+    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
     messages: [
       {
         id: 1,
@@ -15,110 +17,12 @@ const tempChatsOrig = [
         unixTimeStamp: "1648028969820",
         body: "Hello, friend",
       },
-      {
-        id: 2,
-        senderAddress: "0x3",
-        senderName: "John Smith",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "I hope you had a good day.",
-      },
-      {
-        id: 3,
-        senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
-        senderName: "Current User",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "You too!",
-      },
     ],
   },
-  {
-    id: 2,
-    name: "My Second Chat",
-    messages: [
-      {
-        id: 1,
-        senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
-        senderName: "Current User",
-        blockTimeStamp: "1648020000000",
-        unixTimeStamp: "1648020000000",
-        body: "I sent a message!",
-      },
-      {
-        id: 2,
-        senderAddress: "0x3",
-        senderName: "not u",
-        blockTimeStamp: "1648020000000",
-        unixTimeStamp: "1648026000000",
-        body: "I responded.",
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Harry's Special Chat",
-    messages: [
-      {
-        id: 1,
-        senderAddress: "0x3",
-        senderName: "Harry Hadden",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "Sean",
-      },
-      {
-        id: 2,
-        senderAddress: "0x3",
-        senderName: "Harry Hadden",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "I think I messed up",
-      },
-      {
-        id: 3,
-        senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
-        senderName: "Current User",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "same as usual?",
-      },
-      {
-        id: 4,
-        senderAddress: "0x3",
-        senderName: "Harry Hadden",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648030000000",
-        body: "No, this time it was the haberdashery",
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: "My Empty Chat",
-    messages: [],
-  },
-  {
-    id: 5,
-    name: "My Empty Chat",
-    messages: [],
-  },
-  {
-    id: 6,
-    name: "My Empty Chat",
-    messages: [],
-  },
-  {
-    id: 7,
-    name: "My Empty Chat",
-    messages: [],
-  },
-];
-
-const tempChats = [
-  {
+  2: {
     chatID: 2,
     name: "My First Chat",
+    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
     messages: [
       {
         id: 1,
@@ -146,33 +50,13 @@ const tempChats = [
       },
     ],
   },
-];
-
-let tempCurrentUser = {
-  address: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
-  name: "Current User",
+  3: {
+    chatID: 3,
+    name: "Another Chat",
+    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
+    messages: [],
+  },
 };
-
-// function setItem(item) {
-//   const newList = [...list];
-//   const index = list.findIndex((listItem) => listItem.id === item.id);
-
-//   //this next bit is cool -
-//   //destructure your newlist[item] and your item and then re-merge them.
-//   //because "item" is later than "newList[item]"", it's values will take priority.
-//   newList[index] = {
-//     ...newList[index],
-//     ...item,
-//   };
-//   setList(newList);
-// }
-
-// const clearLocalStorage = () => {
-//   setDeckName("");
-//   setList([]);
-//   localStorage.clear();
-//   return 0;
-// };
 
 export const prettyTime = (time, prefix = "") => {
   // if last active today, just say the time. if not, say the whole date.
@@ -188,28 +72,28 @@ export const prettyTime = (time, prefix = "") => {
 };
 
 function Chats() {
-  const [chats] = useState(tempChats);
+  const [chats] = useState(defaultChats);
+  const { user } = useContext(Web3Context);
   const [currentChatID, setCurrentChatID] = useState(
     localStorage.getItem("currentChatID") || -1
   );
-  const chatIndexToRetrieve = chats.findIndex(
-    ({ id }) => id === parseInt(currentChatID)
-  );
   const [currentChat, setCurrentChat] = useState(
-    currentChatID > -1 ? chats[chatIndexToRetrieve] : {}
+    currentChatID > -1 ? chats[currentChatID] : {}
   );
-  const [currentUser] = useState(tempCurrentUser);
+  const [currentChatDisplayIndex, setCurrentChatDisplayIndex] = useState(
+    Object.keys(chats).findIndex((id) => parseInt(id) === currentChatID)
+  );
 
   const submitMessageBody = (body) => {
     let id = 1;
     currentChat.messages?.length &&
       (id = currentChat.messages[currentChat.messages.length - 1].id + 1);
-    let senderAddress = currentUser.address;
-    let senderName = currentUser.name;
+    let senderAddress = user.address;
+    let senderName = user.name;
     let blockTimeStamp = "";
     let unixTimeStamp = Date.now();
     let message = {
-      id,
+      id, // id is local only -- not on .sol
       senderAddress,
       senderName,
       blockTimeStamp,
@@ -223,9 +107,13 @@ function Chats() {
 
   // update chat if a child component selects a new chatID
   useEffect(() => {
-    const currentChat = chats.find(({ id }) => currentChatID === id);
-    if (typeof currentChat != "undefined") {
-      setCurrentChat(currentChat);
+    setCurrentChatDisplayIndex(
+      Object.keys(chats).findIndex(
+        (id) => parseInt(id) === parseInt(currentChatID)
+      )
+    );
+    if (typeof chats[currentChatID] != "undefined") {
+      setCurrentChat(chats[currentChatID]);
       localStorage.setItem("currentChatID", currentChatID);
     }
   }, [chats, currentChatID]);
@@ -235,15 +123,16 @@ function Chats() {
       <div className={styles["all-chats"]}>
         <AllChats
           chats={chats}
-          currentUser={currentUser}
+          user={user}
           currentChatID={currentChatID}
           setCurrentChatID={setCurrentChatID}
+          currentChatDisplayIndex={currentChatDisplayIndex}
         />
       </div>
       <div className={styles["chat-screen"]}>
         <ChatScreen
           chat={currentChat}
-          currentUser={currentUser}
+          currentUser={user}
           submitMessageBody={submitMessageBody}
         />
       </div>
