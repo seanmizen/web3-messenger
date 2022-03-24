@@ -21,7 +21,7 @@ const AllChats = ({
       return previous;
     }
     const chat = chats[current];
-    console.log(chat);
+
     //check for chat name
     if (chat.name?.toLowerCase().includes(st)) {
       previous.push(current);
@@ -40,7 +40,6 @@ const AllChats = ({
     ) {
       previous.push(current);
     }
-    console.log(chatIDsToDisplay.length);
     return previous;
   };
 

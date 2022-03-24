@@ -13,7 +13,6 @@ const Message = ({ message, isCurrentUser, isSequential }) => {
 
   // useEffect for monitoring message status
   useEffect(() => {
-    console.log("message receipt status changed");
     if (true) {
       setReceiptStyle(noReceipt);
     } else if (true) {
