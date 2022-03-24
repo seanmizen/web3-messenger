@@ -1,1 +1,1 @@
-export { default } from "./ThemeToggle";
+export { default, ThemeToggleUnstyled } from "./ThemeToggle";

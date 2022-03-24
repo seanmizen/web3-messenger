@@ -1,12 +1,11 @@
 import styles from "./Settings.module.css";
 import { ThemeContext } from "../../Theme";
 import { ThemeToggle } from "../../components";
-import React from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 function Settings() {
-  const { mode, toggleMode } = React.useContext(ThemeContext);
-
+  const { mode, toggleMode } = useContext(ThemeContext);
   return (
     <div className={styles[""]}>
       <Link to="/" tabIndex={-1}>

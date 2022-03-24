@@ -1,5 +1,9 @@
 import styles from "./ThemeToggle.module.css";
 
+export const ThemeToggleUnstyled = ({ mode, toggleMode, children }) => {
+  return <button onClick={() => toggleMode()}>{children}</button>;
+};
+
 const ThemeToggle = ({ mode, toggleMode }) => {
   return (
     <div className={styles["theme-toggle-outer"]}>
