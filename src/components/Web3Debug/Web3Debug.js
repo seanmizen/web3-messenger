@@ -30,7 +30,7 @@ const Web3Debug = () => {
         </span>{" "}
         chats
       </div>
-      <button onClick={createChat("fff")}>t</button>
+      {/* <button onClick={createChat("fff")}>t</button> */}
     </div>
   );
 };
