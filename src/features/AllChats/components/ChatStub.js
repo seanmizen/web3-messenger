@@ -37,7 +37,9 @@ const ChatStub = ({
             chat.messages[chat.messages.length - 1].body) ||
           "\xa0"}
       </span>
-      <span className={styles["timestamp"]}>{prettyTime(timestamp)}</span>
+      <span className={styles["timestamp"]}>
+        {timestamp.getTime() === 0 ? "Never Active" : prettyTime(timestamp)}
+      </span>
     </li>
   );
 };

@@ -44,7 +44,11 @@ const Message = ({ message, isCurrentUser, isSequential }) => {
           {/* <div className={styles["non-timestamp"]}>[crypto metadata here]</div> */}
         </div>
         <div className={styles["timestamp"]}>
-          {timestamp.toLocaleTimeString()}
+          {timestamp.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })}
         </div>
         <div className={styles["receipt-overlay"]}>
           <div className={receiptWatcher + " " + receiptStyle}>

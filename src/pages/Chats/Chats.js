@@ -66,8 +66,19 @@ export const prettyTime = (time, prefix = "") => {
   const now = new Date(Date.now());
   let chatActiveToday = now.toLocaleDateString() === time.toLocaleDateString();
   const timeString = chatActiveToday
-    ? time.toLocaleTimeString()
-    : time.toLocaleString();
+    ? time.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+    : time.toLocaleString([], {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
   return (prefix.trim() + " " + timeString).trim();
 };
 
