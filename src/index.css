@@ -20,6 +20,10 @@
   --debug-color: #fff;
   --debug-live-info-color: #00ff00;
   --debug-background-color: #000;
+  --transaction-no-receipt: hsl(45, 80%, 60%);
+  --transaction-has-receipt: hsl(45, 80%, 60%);
+  --transaction-success: hsl(120, 50%, 60%);
+  --transaction-failure: hsl(0, 80%, 50%);
 }
 .dark {
   --color: #cecece;
@@ -39,6 +43,10 @@
   --debug-color: #000;
   --debug-live-info-color: #088108;
   --debug-background-color: #eee;
+  --transaction-no-receipt: hsl(45, 80%, 60%);
+  --transaction-has-receipt: hsl(45, 80%, 60%);
+  --transaction-success: hsl(120, 50%, 60%);
+  --transaction-failure: hsl(0, 80%, 50%);
 }
 html,
 body,

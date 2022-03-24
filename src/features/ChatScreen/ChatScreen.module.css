@@ -54,9 +54,10 @@
 
 .message {
   /* inner box of a message - the bubble */
-  padding: 0.4rem;
+  padding: 0.4rem 0.4rem 1rem 0.4rem;
   padding-right: 4rem;
   display: flex;
+  position: relative;
   flex-direction: column;
   min-width: 10%;
   max-width: 70%;
@@ -72,6 +73,8 @@
   justify-content: flex-start;
 }
 .current-user .message {
+  /* extra .5rem padding for receipt area */
+  padding-bottom: 1.5rem;
   background-color: var(--current-user);
   color: var(--current-user-text);
 }
@@ -97,8 +100,15 @@
 }
 
 .timestamp {
-  /* margin-left: auto; */
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.3rem;
   font-size: 0.6rem;
+}
+
+.current-user .timestamp {
+  /* Extra rem for receipt info */
+  bottom: 0.6rem;
 }
 
 .message-input-form {
@@ -113,4 +123,74 @@
   height: 90%;
   font-size: 1.1rem;
   flex: 1;
+}
+
+.receipt-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+}
+.other-user .receipt-overlay {
+  display: none;
+}
+.receipt-watcher {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 0.35rem;
+  transition: height 100ms ease;
+  left: 0px;
+}
+.no-receipt {
+  background: repeating-linear-gradient(
+    -65deg,
+    var(--transaction-no-receipt) 0px,
+    var(--transaction-no-receipt) 1rem,
+    RGBA(255, 255, 255, 0) 0px,
+    RGBA(255, 255, 255, 0) 1.5rem
+  );
+  flex: 1;
+}
+.has-receipt {
+  background-color: var(--transaction-has-receipt);
+  flex: 1;
+}
+.transaction-success {
+  background-color: var(--transaction-success);
+  flex: 1;
+}
+.transaction-failure {
+  background-color: var(--transaction-failure);
+  flex: 1;
+}
+
+.receipt-info {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 50ms, opacity 50ms ease;
+  font-size: 0.6rem;
+  background-color: var(--header-background);
+  margin: 0.2rem;
+  padding: 0.15rem;
+  width: auto;
+  height: 100%;
+  border-radius: 0.2rem;
+  color: var(--color);
+}
+
+.receipt-overlay:hover {
+  height: 100%;
+}
+.receipt-overlay:hover .receipt-watcher {
+  height: 90%;
+  transition: height 100ms ease;
+  /*  */
+}
+
+.receipt-overlay:hover .receipt-info {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 50ms, opacity 50ms ease;
 }
