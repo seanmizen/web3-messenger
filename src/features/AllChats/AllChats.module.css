@@ -31,9 +31,6 @@
   padding: 0.2rem;
   max-height: 5rem;
   box-shadow: 0px 1rem 0.1rem -1rem var(--nav-box-shadow);
-  -webkit-transition: background-color 100ms linear;
-  -ms-transition: background-color 100ms linear;
-  transition: background-color 100ms linear;
 }
 
 .timestamp {
@@ -44,9 +41,6 @@
 
 .chat-list li:hover {
   background-color: var(--background);
-  -webkit-transition: background-color 100ms linear;
-  -ms-transition: background-color 100ms linear;
-  transition: background-color 100ms linear;
 }
 
 .stub-name {

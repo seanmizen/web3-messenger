@@ -74,6 +74,10 @@ body,
   margin: 0;
   font-family: "Karla", "Courier New", Courier, monospace;
   font-weight: 200;
+
+  -webkit-transition: background-color 100ms linear;
+  -ms-transition: background-color 100ms linear;
+  transition: background-color 100ms linear;
 }
 
 .mono {
