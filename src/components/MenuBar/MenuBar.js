@@ -1,6 +1,6 @@
 import styles from "./MenuBar.module.css";
 import { Link } from "react-router-dom";
-import { Add, Wrench } from "../../assets";
+import { Add, Wrench, Dark } from "../../assets";
 import { useContext } from "react";
 import { ThemeToggleUnstyled } from "../ThemeToggle";
 import { ThemeContext } from "../../Theme";
@@ -13,7 +13,8 @@ const MenuBar = ({ createChat }) => {
       <div className={styles["buttons-container"]}>
         <Link to="/" tabIndex={-1}>
           <ThemeToggleUnstyled mode={mode} toggleMode={toggleMode}>
-            {mode[0].toUpperCase()}
+            <Dark />
+            {mode[0].toUpperCase().replace("S", "")}
           </ThemeToggleUnstyled>
         </Link>
         {/* <Add /> */}
