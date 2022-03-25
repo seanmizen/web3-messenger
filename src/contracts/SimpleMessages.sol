@@ -9,6 +9,7 @@ contract SimpleMessages {
     struct User {
         address userAddress;
         string name;
+        uint256[] userChats;
     }
     struct Message {
         address userAddress;
@@ -29,8 +30,8 @@ contract SimpleMessages {
     mapping(address => User) public users;
     // quickly indexed chat-getting.
     // Includes chats user has been removed from.
-    mapping(address => uint256[]) public userChats;
-    mapping(address => uint256) public userChatCount;
+    // mapping (address => uint256[]) public userChats;
+    // mapping (address => uint256) public userChatCount;
     uint256 private chatCount;
 
     event chatCreated(address _createdBy, uint256 _chatID);
@@ -70,8 +71,8 @@ contract SimpleMessages {
                 chats[_chatID].currentUsers.length == 0
         ); //assert sender in chat (or chat is being initialised)
         chats[_chatID].currentUsers.push(_userAddress);
+        users[_userAddress].userChats.push(_chatID);
         emit userAddedToChat(_userAddress, _chatID);
-        userChats[_userAddress].push(_chatID);
     }
 
     function removeUserFromChat(address _userAddress, uint256 _chatID) public {
@@ -80,6 +81,11 @@ contract SimpleMessages {
         chats[_chatID].currentUsers[uint256(userIndex)] = chats[_chatID]
             .currentUsers[chats[_chatID].currentUsers.length - 1];
         chats[_chatID].currentUsers.pop();
+        // -- userChatCount[_userAddress];
+        int256 chatIndex = findChat(_userAddress, _chatID);
+        users[_userAddress].userChats[uint256(chatIndex)] = users[_userAddress]
+            .userChats[users[_userAddress].userChats.length - 1];
+        users[_userAddress].userChats.pop();
         emit userRemovedFromChat(_userAddress, msg.sender, _chatID);
     }
 
@@ -89,12 +95,32 @@ contract SimpleMessages {
         returns (int256)
     {
         for (uint256 i = 0; i < chats[_chatID].currentUsers.length; i++) {
-            // do something
             if (chats[_chatID].currentUsers[i] == _userAddress) {
                 return int256(i);
             }
         }
         return -1; // possible better solution than -1? forces use of signed int.
+    }
+
+    function findChat(address _userAddress, uint256 _chatID)
+        public
+        view
+        returns (int256)
+    {
+        for (uint256 i = 0; i < users[_userAddress].userChats.length; i++) {
+            if (users[_userAddress].userChats[i] == _chatID) {
+                return int256(i);
+            }
+        }
+        return -1; // possible better solution than -1? forces use of signed int.
+    }
+
+    function getUserChats(address _userAddress)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return users[_userAddress].userChats;
     }
 
     /// Get all messages.
