@@ -83,8 +83,8 @@ export const prettyTime = (time, prefix = "") => {
 };
 
 function Chats() {
-  const [chats] = useState(defaultChats);
-  const { user } = useContext(Web3Context);
+  // const [chats] = useState(defaultChats);
+  const { user, chats } = useContext(Web3Context);
   const [currentChatID, setCurrentChatID] = useState(
     localStorage.getItem("currentChatID") || -1
   );
@@ -99,21 +99,19 @@ function Chats() {
     let id = 1;
     currentChat.messages?.length &&
       (id = currentChat.messages[currentChat.messages.length - 1].id + 1);
-    let senderAddress = user.address;
+    let userAddress = user.address;
     let senderName = user.name;
     let blockTimeStamp = "";
     let unixTimeStamp = Date.now();
     let message = {
       id, // id is local only -- not on .sol
-      senderAddress,
-      senderName,
-      blockTimeStamp,
+      senderAddress: userAddress,
+      senderName, // id is local only -- not on .sol
+      blockTimeStamp, // blocktimestamp set by miner
       unixTimeStamp,
       body,
     };
-    let chatCopy = { ...currentChat };
-    chatCopy.messages.push(message);
-    setCurrentChat(chatCopy);
+    setCurrentChat(...currentChat.messages.push(message));
   };
 
   // update chat if a child component selects a new chatID

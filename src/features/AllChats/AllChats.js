@@ -2,7 +2,7 @@ import styles from "./AllChats.module.css";
 import ChatStub from "./components/ChatStub";
 import SearchBar from "./components/SearchBar";
 import MenuBar from "../../components/MenuBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AllChats = ({
   chats,
@@ -12,7 +12,7 @@ const AllChats = ({
   currentChatDisplayIndex,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [chatIDsToDisplay] = useState(Object.keys(chats)); //ordered
+  const [chatIDsToDisplay, setChatIDsToDisplay] = useState(Object.keys(chats)); //ordered
 
   const chatFilterReducer = (previous, current, i) => {
     const st = searchTerm.trim().toLowerCase();
@@ -47,24 +47,32 @@ const AllChats = ({
     return "no";
   };
 
+  useEffect(() => {
+    setChatIDsToDisplay(Object.keys(chats));
+  }, [chats]);
+
   return (
     <div className={styles["left-side"]}>
       <SearchBar key={-1} setSearchTerm={setSearchTerm}></SearchBar>
-      <ul className={styles["chat-list"]}>
-        {chatIDsToDisplay.reduce(chatFilterReducer, []).map((chatID, index) => {
-          return (
-            <ChatStub
-              key={index}
-              displayIndex={index}
-              chat={chats[chatID]}
-              user={user}
-              setCurrentChatID={setCurrentChatID}
-              currentChatID={currentChatID}
-              currentChatDisplayIndex={currentChatDisplayIndex}
-            />
-          );
-        })}
-      </ul>
+      <div className={styles["chat-list-box"]}>
+        <ul className={styles["chat-list"]}>
+          {chatIDsToDisplay
+            .reduce(chatFilterReducer, [])
+            .map((chatID, index) => {
+              return (
+                <ChatStub
+                  key={index}
+                  displayIndex={index}
+                  chat={chats[chatID]}
+                  user={user}
+                  setCurrentChatID={setCurrentChatID}
+                  currentChatID={currentChatID}
+                  currentChatDisplayIndex={currentChatDisplayIndex}
+                />
+              );
+            })}
+        </ul>
+      </div>
       <MenuBar createChat={createNewChat} />
     </div>
   );

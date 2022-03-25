@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useCallback, useReducer } from "react";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import SimpleMessagesJSON from "../contracts/artifacts/SimpleMessages.json";
 
 let defaultUser = {
-  address: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
+  address: "0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096",
   name: "Current User",
 };
 
@@ -14,60 +14,62 @@ let defaultUser = {
 //Message[] messages;
 //uint256 length; // Allows for easy interrogation in app
 
-const defaultChats = {
-  1: {
-    chatID: 2,
-    name: "My First Chat",
-    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
-    messages: [
-      {
-        id: 1,
-        senderAddress: "0x3",
-        senderName: "John Smith",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "Hello, friend",
-      },
-    ],
-  },
-  2: {
-    chatID: 2,
-    name: "My First Chat",
-    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
-    messages: [
-      {
-        id: 1,
-        senderAddress: "0x3",
-        senderName: "John Smith",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "Hello, friend",
-      },
-      {
-        id: 2,
-        senderAddress: "0x3",
-        senderName: "John Smith",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "I hope you had a good day.",
-      },
-      {
-        id: 3,
-        senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
-        senderName: "Current User",
-        blockTimeStamp: "1648028969820",
-        unixTimeStamp: "1648028969820",
-        body: "You too!",
-      },
-    ],
-  },
-  3: {
-    chatID: 2,
-    name: "Another Chat",
-    currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
-    messages: [],
-  },
-};
+// const defaultChats = {
+//   1: {
+//     chatID: 1,
+//     name: "My First Chat",
+//     currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
+//     messages: [
+//       {
+//         id: 1,
+//         senderAddress: "0x3",
+//         senderName: "John Smith",
+//         blockTimeStamp: "1648028969820",
+//         unixTimeStamp: "1648028969820",
+//         body: "Hello, friend",
+//       },
+//     ],
+//   },
+//   2: {
+//     chatID: 2,
+//     name: "My First Chat",
+//     currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
+//     messages: [
+//       {
+//         id: 1,
+//         senderAddress: "0x3",
+//         senderName: "John Smith",
+//         blockTimeStamp: "1648028969820",
+//         unixTimeStamp: "1648028969820",
+//         body: "Hello, friend",
+//       },
+//       {
+//         id: 2,
+//         senderAddress: "0x3",
+//         senderName: "John Smith",
+//         blockTimeStamp: "1648028969820",
+//         unixTimeStamp: "1648028969820",
+//         body: "I hope you had a good day.",
+//       },
+//       {
+//         id: 3,
+//         senderAddress: "0x23A40E1461D493AF9ca7F6eEF6Dc28058463f210",
+//         senderName: "Current User",
+//         blockTimeStamp: "1648028969820",
+//         unixTimeStamp: "1648028969820",
+//         body: "You too!",
+//       },
+//     ],
+//   },
+//   3: {
+//     chatID: 3,
+//     name: "Another Chat",
+//     currentUsers: ["0xca1BFC2Bf173ada6d60c05C20F86eA670Dae6096"],
+//     messages: [],
+//   },
+// };
+
+// let defaultChats = {};
 
 // let web3 = new Web3(Web3.givenProvider || "ws://127.0.0.1:7545");
 let web3 = new Web3("ws://127.0.0.1:7545");
@@ -80,52 +82,124 @@ const SimpleMessages = new web3.eth.Contract(
   // "0x2aA35916Bba3435B49Ea8A4719603A5E0211Aba1"
 );
 
-SimpleMessages.options.address = "0x8CB1154C9D6c2b3394F21CB8fe0F7e1A6F74316b";
+SimpleMessages.options.address = "0x0676ca993DF8177D730F41d88B78a2171BD0A732";
+
+const chatsReducer = (state, action) => {
+  switch (action.type) {
+    case "appendChatMessages": {
+      return {
+        ...state,
+        [action.payload.chatID]: {
+          ...(state[action.payload.chatID] ?? {}),
+          chatID: action.payload.chatID,
+          messages: action.payload.messages,
+        },
+      };
+    }
+    case "changeChatName": {
+      return {
+        ...state,
+        [action.payload.chatID]: {
+          ...(state[action.payload.chatID] ?? {}),
+          name: action.payload.name,
+        },
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+// const namesReducer = () => {
+//   //
+// };
 
 export const Web3Provider = ({ children }) => {
   const [lastUpdated, setLastUpdated] = useState(0);
   const [latestBlock, setLatestBlock] = useState({ number: -1 });
   const [pendingTransactions, setPendingTransactions] = useState();
   const [user] = useState(defaultUser);
-  const [userChats] = useState([2]);
-  const [chats, setChats] = useState(defaultChats);
+  const [userChats, setUserChats] = useState([]); // list of IDs
+  // const [userNames, setUserNames] = useReducer(namesReducer, {}); //get usernames from the network
+  // const [userChatCount, setUserChatCount] = useState(0);
+  const [chats, dispatchChats] = useReducer(chatsReducer, {});
 
-  // updateChats - force re-poll each chat listed
-  // can be used to update a single chat
-  const updateChats = (chatIDs) => {
-    chatIDs.forEach((chatID) => {
-      console.log("Chat id " + chatID);
-      //update name
-      SimpleMessages.methods
-        .chats(chatID)
-        .call({
-          from: user.address,
-        })
-        .then((result) => {
-          let chat = chats[chatID];
-          chat.name = result.name;
-          setChats({ chatID: chat, ...chats });
-        });
+  // userChats = [1, 2, 7]
+  // chats = {1: {...}, 2: {...}, 7: {...}}
 
-      //update messages
-      SimpleMessages.methods
-        .getChatMessages(chatID)
-        .call({
-          from: user.address,
-        })
-        .then((result) => {
-          let chat = chats[chatID];
-          chat.messages = result; //for now simply overwrite the entire result //
-          setChats({ chatID: chat, ...chats });
+  // get user's chat list when user updated
+  useEffect(() => {
+    SimpleMessages.methods
+      .getUserChats(user.address)
+      .call({
+        from: user.address,
+      })
+      .then((userChatsResponse) => {
+        setUserChats(userChatsResponse);
+      });
+  }, [user]);
+
+  // messages getter
+  useEffect(() => {
+    if (userChats.length === 0) {
+      return;
+    }
+    const getChatMessages = async (chatID) => {
+      return SimpleMessages.methods.getChatMessages(chatID).call({
+        from: user.address,
+      });
+    };
+
+    const getAllChatMessages = async () => {
+      const allChatMessages = await Promise.all(
+        userChats.map((chatID) => getChatMessages(chatID))
+      );
+
+      allChatMessages.forEach((messages, index) => {
+        dispatchChats({
+          type: "appendChatMessages",
+          payload: { chatID: userChats[index], messages },
         });
-    });
-    return;
-  };
+      });
+    };
+
+    getAllChatMessages();
+  }, [userChats, user]);
+
+  // chat metadata getter
+  useEffect(() => {
+    const getChat = async (chatID) => {
+      return SimpleMessages.methods.chats(chatID).call({
+        from: user.address,
+      });
+    };
+
+    const getAllChatMessages = async () => {
+      const allChatInfos = await Promise.all(
+        userChats.map((chatID) => getChat(chatID))
+      );
+
+      allChatInfos.forEach((chat, index) => {
+        dispatchChats({
+          type: "changeChatName",
+          payload: { chatID: chat.chatID, name: chat.name },
+        });
+      });
+    };
+
+    getAllChatMessages();
+  }, [userChats, user]);
+
+  //log chats on every change
+  useEffect(() => {
+    console.log("chats", chats);
+  }, [chats]);
 
   // useEffect to update "lastUpdated" state
   useEffect(() => {
     setLastUpdated(Date.now());
-  }, [latestBlock, pendingTransactions]);
+  }, [latestBlock, pendingTransactions, chats]);
 
   // useEffect to monitor sync events
   useEffect(() => {
@@ -133,8 +207,7 @@ export const Web3Provider = ({ children }) => {
       "syncing",
       (error, result) => {
         if (!error) {
-          console.log("Sync event taking place.");
-          console.log(result);
+          console.log("Sync event taking place.", result);
         }
       }
     );
@@ -147,8 +220,6 @@ export const Web3Provider = ({ children }) => {
       .subscribe("newBlockHeaders", (error, result) => {
         if (!error) {
           setLatestBlock(result);
-          // web3.eth.getTransactionReceipt("address?").then(console.log);
-          // web3.eth.getBlock(web3.eth.defaultBlock).then(console.log);
           return;
         }
         console.error(error);
@@ -156,9 +227,7 @@ export const Web3Provider = ({ children }) => {
       .on("connected", function (subscriptionId) {
         console.log("Watching block headers - subscription: " + subscriptionId);
       })
-      .on("data", function (blockHeader) {
-        // console.log("newBlockHeader1: " + blockHeader);
-      })
+      .on("data", function (blockHeader) {})
       .on("error", console.error);
 
     return () => {
@@ -169,6 +238,21 @@ export const Web3Provider = ({ children }) => {
   //https://ethereum.stackexchange.com/questions/35997/how-to-listen-to-events-using-web3-v1-0
   // useEffect to listen for messages
   useEffect(() => {
+    const getChatMessages = async (chatID) => {
+      return SimpleMessages.methods.getChatMessages(chatID).call({
+        from: user.address,
+      });
+    };
+
+    const updateChat = async (chatID) => {
+      let chatMessages = await getChatMessages(chatID);
+      console.log("New messages", chatMessages);
+      dispatchChats({
+        type: "appendChatMessages",
+        payload: { chatID: chatID, messages: chatMessages },
+      });
+    };
+
     let messageListener = SimpleMessages.events
       .messagePosted(
         {
@@ -176,14 +260,20 @@ export const Web3Provider = ({ children }) => {
           // fromBlock: 0
         },
         (error, event) => {
-          // console.log(event);
-          console.log(event.returnValues._chatID);
-          const chatID = event.returnValues._chatID;
-          updateChats([chatID]);
+          console.log("Message posted: ", event);
+          updateChat(event._chatID);
+          // updateChat _chatID
+
+          // dispatchChats({
+          //   type: "appendChatMessages",
+          //   payload: { chatID: userChats[index], messages },
+          // });
+          // const chatID = event.returnValues._chatID;
+          // updateChats([chatID]);
         }
       )
       .on("data", (event) => {
-        // console.log(event); // same results as the optional callback above
+        // same results as the optional callback above
       })
       .on("changed", (event) => {
         // remove event from local database
@@ -192,7 +282,7 @@ export const Web3Provider = ({ children }) => {
 
     // return;
     return messageListener.unsubscribe();
-  }, [userChats]);
+  }, [user.address]);
 
   // useEffect to listen for pendingTransactions
   useEffect(() => {
@@ -202,21 +292,12 @@ export const Web3Provider = ({ children }) => {
       })
       .on("data", function (transaction) {
         //pending transaction received
-        console.log("pending transaction: " + transaction);
         setPendingTransactions(transaction);
       });
     return () => {
       pendingTransactionsSubscription.unsubscribe();
     };
   }, []);
-
-  //web3.eth.Contract.transcationBlockTimeout -- TODO use this to see if a message has failed?
-
-  // console.log(SimpleMessages.methods);
-  // SimpleMessages.methods.somFunc().send({from: 0x84Bc529771C13D548737517Ad92204D8E2Df75F6
-  // .on('receipt', function(){
-  //     ...
-  // });
 
   const createChat = (name) => {
     console.log("creating chat " + name);
@@ -259,6 +340,7 @@ export const Web3Provider = ({ children }) => {
         lastUpdated,
         latestBlock,
         pendingTransactions,
+        userChats,
         createChat,
         postMessage,
         // SimpleMessages,

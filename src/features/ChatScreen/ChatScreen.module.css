@@ -29,11 +29,23 @@
   /* metadata e.g. "chat last active x days ago" */
 }
 
-.chat-view {
+.chat-view-box {
   flex: 1;
+  overflow: scroll;
+  position: relative;
+}
+
+.chat-view {
+  position: absolute;
+  overflow: scroll;
+  bottom: 0;
+  right: 0;
+  flex: 1;
+  height: 100%;
+  width: 90%;
   display: flex;
   padding: 0.7rem 1.5rem;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 
 .chat-view li {
@@ -164,6 +176,9 @@
 .transaction-failure {
   background-color: var(--transaction-failure);
   flex: 1;
+}
+.transaction-not-part-of-session {
+  display: none;
 }
 
 .receipt-info {

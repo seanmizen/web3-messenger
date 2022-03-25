@@ -16,9 +16,19 @@ const ChatStub = ({
 
   const timestamp = new Date(
     chat.messages?.length
-      ? parseInt(chat.messages[chat.messages.length - 1].unixTimeStamp)
+      ? parseInt(chat.messages[chat.messages.length - 1].unixTimeStamp * 1000)
       : 0
   );
+
+  const chatDisplayName = chat.name ? chat.name : "Chat Name Loading";
+  const lastMessageToPrint =
+    (chat.messages?.length &&
+      (chat.messages[chat.messages.length - 1].userAddress === user.address
+        ? "You"
+        : chat.messages[chat.messages.length - 1].userAddress.slice(-5)) +
+        ": " +
+        chat.messages[chat.messages.length - 1].body) ||
+    "\xa0";
 
   return (
     <li
@@ -27,16 +37,8 @@ const ChatStub = ({
         displayIndex === currentChatDisplayIndex ? styles["current-chat"] : ""
       }
     >
-      <span className={styles["stub-name"]}>{chat.name || "\xa0"}</span>
-      <span className={styles["stub-last-message"]}>
-        {(chat.messages?.length &&
-          (chat.messages[chat.messages.length - 1].senderName === user.name
-            ? "You"
-            : chat.messages[chat.messages.length - 1].senderName) +
-            ": " +
-            chat.messages[chat.messages.length - 1].body) ||
-          "\xa0"}
-      </span>
+      <span className={styles["stub-name"]}>{chatDisplayName || "\xa0"}</span>
+      <span className={styles["stub-last-message"]}>{lastMessageToPrint}</span>
       <span className={styles["timestamp"]}>
         {timestamp.getTime() === 0 ? "Never Active" : prettyTime(timestamp)}
       </span>

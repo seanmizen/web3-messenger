@@ -24,24 +24,28 @@ function ChatScreen({ chat, currentUser, submitMessageBody }) {
             : prettyTime(chatLastActive, "Chat last active at")}
         </div>
       </div>
-      <ul className={styles["chat-view"]}>
-        {chat.messages?.map((message, index) => {
-          let isSequential = false;
-          if (index > 0) {
-            isSequential =
-              chat.messages[index - 1].senderAddress === message.senderAddress;
-          }
-          const isCurrentUser = message.senderAddress === currentUser.address;
-          return (
-            <Message
-              key={index}
-              isSequential={isSequential}
-              isCurrentUser={isCurrentUser}
-              message={message}
-            />
-          );
-        })}
-      </ul>
+      <div className={styles["chat-view-box"]}>
+        <ul className={styles["chat-view"]}>
+          {chat.messages
+            ?.map((message, index) => {
+              let isSequential = false;
+              if (index > 0) {
+                isSequential =
+                  chat.messages[index - 1].userAddress === message.userAddress;
+              }
+              const isCurrentUser = message.userAddress === currentUser.address;
+              return (
+                <Message
+                  key={index}
+                  isSequential={isSequential}
+                  isCurrentUser={isCurrentUser}
+                  message={message}
+                />
+              );
+            })
+            .reverse()}
+        </ul>
+      </div>
       <MessageInput submitMessageBody={submitMessageBody} />
     </div>
   );

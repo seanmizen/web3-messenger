@@ -30,6 +30,7 @@ contract SimpleMessages {
     // quickly indexed chat-getting.
     // Includes chats user has been removed from.
     mapping(address => uint256[]) public userChats;
+    mapping(address => uint256) public userChatCount;
     uint256 private chatCount;
 
     event chatCreated(address _createdBy, uint256 _chatID);

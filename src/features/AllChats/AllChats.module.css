@@ -5,7 +5,17 @@
   flex-direction: column;
 }
 
+.chat-list-box {
+  flex: 1;
+  overflow: scroll;
+  position: relative;
+}
 .chat-list {
+  position: absolute;
+  overflow: scroll;
+  top: 0;
+  left: 0;
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;

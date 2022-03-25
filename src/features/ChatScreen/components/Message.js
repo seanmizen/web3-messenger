@@ -6,6 +6,7 @@ const noReceipt = styles["no-receipt"];
 const hasReceipt = styles["has-receipt"];
 const transactionSuccess = styles["transaction-success"];
 const transactionFailure = styles["transaction-failure"];
+const transactionNotPartOfSession = styles["transaction-not-part-of-session"];
 
 const Message = ({ message, isCurrentUser, isSequential }) => {
   const [receiptStyle, setReceiptStyle] = useState(noReceipt);
@@ -13,7 +14,13 @@ const Message = ({ message, isCurrentUser, isSequential }) => {
 
   // useEffect for monitoring message status
   useEffect(() => {
-    if (true) {
+    if (message.blockTimestamp && true) {
+      // message has been retrieved from the chain, rather than sent this session.
+      // could imply concurrent session.
+      setReceiptStyle(transactionNotPartOfSession);
+    } else if (message.blockTimestamp) {
+      setReceiptStyle(transactionNotPartOfSession);
+    } else if (true) {
       setReceiptStyle(noReceipt);
     } else if (true) {
       setReceiptStyle(hasReceipt);
@@ -22,7 +29,7 @@ const Message = ({ message, isCurrentUser, isSequential }) => {
     } else if (true) {
       setReceiptStyle(transactionFailure);
     }
-  }, [message.receiptStatus]);
+  }, [message]);
 
   return (
     <li
@@ -35,7 +42,7 @@ const Message = ({ message, isCurrentUser, isSequential }) => {
       <div className={styles["message"]}>
         {!isCurrentUser && (
           <span className={styles["user-name"]}>
-            {message.senderName || "Example name"}
+            {message.userAddress.slice(-5) || "Example name"}
           </span>
         )}
         <span>{message.body || "\xa0"}</span>

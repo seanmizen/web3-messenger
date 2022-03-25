@@ -1,14 +1,11 @@
-import { Web3Context, useChats } from "../../services";
+import { Web3Context } from "../../services";
 import styles from "./Web3Debug.module.css";
 import { useContext } from "react";
-// import { useEffect } from "react";
 
-// TODO pass in Web3Context as a prop from /app.js or /chats.js
-
-// Debug information bar across the top of the website. Designed to look minimal and B/W!
 const Web3Debug = () => {
-  const { latestBlock, lastUpdated, createChat } = useContext(Web3Context);
-  const chats = useChats("userAddress"); // every time this changes, a rerender will be triggered
+  const { latestBlock, lastUpdated, userChats, pendingTransactions } =
+    useContext(Web3Context);
+  // const chats = useChats("userAddress"); // every time this changes, a rerender will be triggered
   return (
     <div className={styles["debug-bar"]}>
       <div>
@@ -20,15 +17,18 @@ const Web3Debug = () => {
       <div>
         Last updated:{" "}
         <span className={lastUpdated === 0 ? "" : styles["live-info"]}>
-          {lastUpdated === 0 ? "-" : new Date(lastUpdated).toLocaleString()}
+          {lastUpdated === 0 ? "-" : new Date(lastUpdated).toLocaleTimeString()}
         </span>
       </div>
       <div>
         Subscribed to{" "}
-        <span className={chats?.length === 0 ? "" : styles["live-info"]}>
-          {chats?.length}
+        <span className={userChats?.length === 0 ? "" : styles["live-info"]}>
+          {userChats?.length}
         </span>{" "}
-        chats
+        chat{userChats?.length === 1 ? "" : "s"}
+      </div>
+      <div className={styles["live-info"]}>
+        {pendingTransactions ? "pending transactions..." : ""}
       </div>
       {/* <button onClick={createChat("fff")}>t</button> */}
     </div>

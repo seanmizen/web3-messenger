@@ -20,11 +20,12 @@
   justify-content: space-around;
   align-items: center;
 }
-
+.menu-bar a * {
+  color: #111;
+}
 .menu-bar a {
   /* Always white to contrast with black SVGs */
   background-color: white;
-  color: #111;
   display: flex;
   align-items: center;
   justify-content: center;
